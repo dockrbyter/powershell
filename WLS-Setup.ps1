@@ -40,7 +40,7 @@ function Show-Menu  						# Bildschirmausgaben (das Menue darstellen)
     param (
         [string]$Title = 'Distributionen'
     )
-     cls
+     Clear-Host
      
 Write-Host "     __    __  __  __ "
 Write-Host "    / / /\ \ \/ / / _\       "
@@ -93,7 +93,7 @@ until ($input -eq 'q')		# Beendet WLS-Setup Setup
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #--- Ende -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-cls
+Clear-Host
 
 Write-Host " "
 Write-Host "           Nach dem Systemneustart die .appx Datei"

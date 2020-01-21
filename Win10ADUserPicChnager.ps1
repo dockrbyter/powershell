@@ -6,28 +6,12 @@ Windows 10 Profilbearbeitung
 
 Legt das Profilbild der Active Directory Benutzer im 
 Anmeldebildschirm von Windows 10 fest
-
 #>
+#--- Variablen -----------------------------------------------------------------------------------
 
-#                   BITTE VARIABLEN ANPASSEN
-
-# Domaincontroller                          (z.B. srv01.domain.local)
-
-$DCsrv = "srv01.domain.local"
-
-
-# Benutzername                              (z.B: Maximilian, oder * fuer alle Benutzer)
-
-$UserNAME = "Maximilian"
-
-
-# Pfad zum Profilbild                       (z.B. C:\SIT\Wallpaper\User.jpg)
-
-$UserpicPFAD = "C:\SIT\Wallpaper\User.jpg"
-
-
-#----------------------------------------------------------------------------------------------------------
+$DCsrv = "srv01.domain.local"           # Domaincontroller, z.B. srv01.domain.local
+$UserNAME = "Max"                       # Benutzername, z.B "Max", oder * fuer alle Benutzer
+$UserpicPFAD = "C:\Wallpaper\User.jpg"  # Pfad zum Profilbild, z.B. C:\Wallpaper\User.jpg
 #----------------------------------------------------------------------------------------------------------
 
 Set-ADUser $UserNAME -Replace @{thumbnailPhoto=$UserpicPFAD} -Server $DCsrv
- 

@@ -32,7 +32,7 @@ Clear-Host
 #------------------------------------------------------------------------------------------------------------------------------------
 # Daten abfragen und in CSV speichern
 
-Get-ADUser -Filter * -Properties $props | select $props | Export-CSV $zielpfad
+Get-ADUser -Filter * -Properties $props | Select-Object $props | Export-CSV $zielpfad
 
 #------------------------------------------------------------------------------------------------------------------------------------
 

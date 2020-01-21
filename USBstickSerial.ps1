@@ -3,6 +3,6 @@ USBstickSerial.ps1
 M@x
 #>
 
-gwmi Win32_USBControllerDevice |%{[wmi]($_.Dependent)} | Where-Object {($_.Description -like '*mass*')} | Sort Description,DeviceID | ft Description,DeviceID –auto
+Get-WmiObject Win32_USBControllerDevice |ForEach-Object{[wmi]($_.Dependent)} | Where-Object {($_.Description -like '*mass*')} | Sort-Object Description,DeviceID | Format-Table Description,DeviceID ï¿½auto
 
 pause

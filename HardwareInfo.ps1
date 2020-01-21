@@ -3,27 +3,25 @@ HardwareInfos.ps1
 Listet Mainboard, CPU, GPU und RAM Informationen auf
 #>
 
+#-----------------------------------------------------------------------------------------------
+$cpuinfos = Get-WmiObject -Class Win32_Processor
+$boarinfos = Get-WmiObject -Class Win32_BaseBoard -ComputerName $computer
+$raminfo = Get-WmiObject -Class Win32_PhysicalMemory -ComputerName $computer
+$gpuinfos = Get-Wmiobject Win32_VideoController | Select-Object -Property -Property Name
 
 $computer = $env:computername
 
-# Wenn noetig Admin-Rechte anfordern
+#-----------------------------------------------------------------------------------------------
 
-if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
- if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
-  $CommandLine = "-File `"" + $MyInvocation.MyCommand.Path + "`" " + $MyInvocation.UnboundArguments
-  Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine
-  Exit
- }
-}
+Clear-Host
 
-# Hardware Check
+Write-Host "   GPU: $gpuinfos"
 
-Get-WmiObject -Class Win32_BaseBoard -ComputerName $computer
 
-Get-WmiObject -Class Win32_Processor
 
-Get-Wmiobject Win32_VideoController
 
-Get-WmiObject -Class Win32_PhysicalMemory -ComputerName $computer
+
+
+
 
 pause

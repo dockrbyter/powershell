@@ -32,7 +32,7 @@ function Show-Menu
     param (
         [string]$Title = ' Windows 10 App Purge '
     )
-     cls
+     Clear-Host
      
 
      Write-Host "  "	 
@@ -136,10 +136,10 @@ do
             )
             try{
             if ($unpin.IsPresent){
-            ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'From "Start" UnPin|Unpin from Start'} | %{$_.DoIt()}
+            ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | Where-Object{$_.Name -eq $appname}).Verbs() | Where-Object{$_.Name.replace('&','') -match 'From "Start" UnPin|Unpin from Start'} | ForEach-Object{$_.DoIt()}
             return "App '$appname' unpinned from Start"
             }else{
-            ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'To "Start" Pin|Pin to Start'} | %{$_.DoIt()}
+            ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | Where-Object{$_.Name -eq $appname}).Verbs() | Where-Object{$_.Name.replace('&','') -match 'To "Start" Pin|Pin to Start'} | ForEach-Object{$_.DoIt()}
             return "App '$appname' pinned to Start"
             }
             }catch{

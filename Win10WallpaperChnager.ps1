@@ -6,15 +6,11 @@ Windows 10 Profilbearbeitung
 Legt das Hintergrundbild  von Windows 10 fest
 
 #>
+#--- Variablen ----------------------------------------------------------------------------------------------
 
+$WALLPAPERpfad =  "C:\Wallpaper\Wallpaper.jpg"      # Pfad zum Hintergrundbild
 
-# Pfad zum Hintergrundbild - Bitte anpassen!
-
-$WALLPAPERpfad =  "C:\SIT\Wallpaper\Wallpaper.jpg"
-
-
-#-------------------------------------------------------------------------
-#   Bearbeitung
+#--- Verarbeitung -------------------------------------------------------------------------------------------
 
     reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d $WALLPAPERpfad /f
         Start-Sleep -s 1

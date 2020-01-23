@@ -3,16 +3,6 @@ Netzwerktypenwechsler.ps1
 .DESRIPTION
 	Netzwerktypen Schnellwechsel
 #>
-#--- Administratorrechte anfordern -------------------------------------------------------------------------------------------------------------------------------------
-
-If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
-{
-  Start-Process powershell.exe "-File",('"{0}"' -f $MyInvocation.MyCommand.Path) -Verb RunAs
-  exit
-}
-
-
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #--- NetzTyp ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Clear-Host
@@ -27,7 +17,6 @@ Write-Host "  |/\| |___ \__  |  |  __/ |___ |___ |  \"
 Write-Host " "
 
 
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #--- NIC-Auswahl --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 $adapter = Get-NetConnectionProfile
@@ -40,12 +29,12 @@ for ($i=1 ; $i -le $adapter.count ; $i++) {
  
  }
 
-Write-Host " "
-
-[int]$ans = Read-Host 'Von welchem Adapter soll der Typ auf Privat gesetzt werden?'
-$selection = $menu.Item($ans)
-
-Write-Host " "
+    Write-Host " "
+    Write-Host " Hi! Ich setze Dir deine Netzwerke auf Privat!"
+    Write-Host " "
+    [int]$ans = Read-Host 'An welchem Adapter soll ich rumfummeln?'
+    $selection = $menu.Item($ans)
+    Write-Host " "
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -76,7 +65,6 @@ $SelectOS = $host.ui.PromptForChoice($title, $message, $options, 0)
 
 
 
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #--- Netzwerktypen Wechsel ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 Write-Host "    Mache $selection zu $LanTyp Netzwerk!"

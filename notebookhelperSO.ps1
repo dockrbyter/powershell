@@ -185,3 +185,5 @@ Write-Host "   Neustart in $delay Sekunden"
 
 Restart-Computer -Delay $delay -Force           # Neustart
 
+
+#######

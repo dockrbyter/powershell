@@ -10,13 +10,13 @@ $neuerName = "NB02"                 # Gewuenschter Name
 
 $loeschuser = "SIT"                 # Zu loeschender user BSP "DummerUser4"
 
-$ssid1 = "iPAD"                    # SSID 1
-$ssid2 = "Paedagogik"                    # SSID 2
+$wlanProfil1 = "wlan.xml"             # Zu importierendes Profil 1
+$wlanProfil2 = "wlan.xml"             # Zu importierendes Profil 2
 
 $proxyserver = "10.10.10.10:8080"   # Proxy + Port BSP: "172.16.0.1:8080"
 
 $domaintojoin = "schule.mnsplus"        # Domainname BSP: "pettingzoo.party"
-    $oupfad = "OU=Noteboocks,OU=Raum 1408,DC=ad,DC=pettingzoo,DC=party"             # Der OU-Pfad (distinguishedName) BSP: "OU=Noteboocks,OU=Raum 1408,DC=ad,DC=pettingzoo,DC=party"
+    #$oupfad = "OU=Noteboocks,OU=Raum 1408,DC=ad,DC=pettingzoo,DC=party"             # Der OU-Pfad (distinguishedName) BSP: "OU=Noteboocks,OU=Raum 1408,DC=ad,DC=pettingzoo,DC=party"
 
 $delay = "5"                       # Wartezeit nach Abschluss fuer Neustart (Script hat eigenes Delay von 5 Sekunden)
 
@@ -54,21 +54,6 @@ Write-Host " "
 
 $adminpw = read-host "Passwort lokaler Administrator" -asSecureString                  # WLAN Key 1
 
-Clear-Host
-Write-Host "        WLAN-Key fuer SSID1"
-Write-Host "        $ssid1 "
-Write-Host "        benoetigt!"
-Write-Host " "
-
-$key1 = read-host "WLAN Key 1" -asSecureString                  # WLAN Key 1
-
-Clear-Host
-Write-Host "        WLAN-Key fuer SSID2"
-Write-Host "        $ssid2 "
-Write-Host "        benoetigt!"
-Write-Host " "
-
-$key2 = read-host "WLAN Key 2" -asSecureString                  # WLAN Key 2
 
 #--- Phase I - Name, User, WLAN1 und Updates -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -109,14 +94,15 @@ pause
     Start-Sleep -Milliseconds 500
     Clear-Host
 
-netsh wlan connect ssid=$ssid1 key=$key1                # WLAN join 1
+netsh wlan add profile filename="$PSScriptRoot\$wlanProfil1" user=all                # WLAN join 1
+Restart-NetAdapter
 
-pause
+
     
     Clear-Host    
-    Write-Host " WLAN1  $ssid1  verbunden! Lade Updates..."
+    Write-Host " WLAN1  $ssid1  verbunden! Mache 10 Sek Pause... Lade dann Updates..."
     Write-Host " "
-    Start-Sleep -Milliseconds 500
+    Start-Sleep --Seconds 10
     Clear-Host
 
     
@@ -129,15 +115,15 @@ Import-Module PSWindowsUpdate                           # PowerShell Update-Modu
 
     Clear-Host
     Write-Host " Updates installiert! Entferne WLAN1  $ssid1  ..."
-    Write-Host " " "
+    Write-Host " " 
     Start-Sleep -Milliseconds 500
     Clear-Host
 
 
-Netsh wlan delete profile $ssid1                        # WLAN1 Profil loeschen
+Netsh wlan delete profile $wlanProfil1                        # WLAN1 Profil loeschen
 
     Clear-Host
-    Write-Host " WLAN1  $ssid1  entfernt!"
+    Write-Host " WLAN1  $wlanProfil1  entfernt!"
     Write-Host " "
     Start-Sleep -Milliseconds 500
     Clear-Host
@@ -151,23 +137,25 @@ Start-Sleep -Seconds 1
 Clear-Host
 
 Clear-Host
-Write-Host " Setze Proxy und trete WLAN2  $ssid2  bei..."
+Write-Host " Setze Proxy und trete WLAN2  $wlanProfil2  bei..."
 Write-Host " "
 Start-Sleep -Milliseconds 500
 Clear-Host
 
 netsh winhttp set proxy $proxyserver                    # Proxy setzen
 
-netsh wlan connect ssid=$ssid2 key=$key2                # WLAN join 2
+netsh wlan add profile filename="$PSScriptRoot\$wlanProfil1" user=all                # WLAN join 2
+Restart-NetAdapter
 
     Clear-Host
     Write-Host " Proxy gesetzt!"
-    Write-Host " WLAN2  $ssid2  verbunden! Trete Domain bei..."
+    Write-Host " WLAN2  $wlanProfil1  verbunden! Mache 10 Sek Pause, "
+    Write-Host " trete dann Domain $domaintojoin bei..."
     Write-Host " "
-    Start-Sleep -Milliseconds 500
+    Start-Sleep -Seconds 10
     Clear-Host
 
-Add-Computer -DomainName $domaintojoin # -OUPath $oupfad -Credential $domaincredential        # Domainjoin
+Add-Computer -DomainName $domaintojoin -Credential $domaincredential  # -OUPath $oupfad      # Domainjoin
 
     Clear-Host
     Write-Host " Domain  $domaintojoin  beigetreten!"

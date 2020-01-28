@@ -7,8 +7,6 @@ Hilft Notebooks nach der Windowsinstallation nach Hause zu finden
 
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-$neuerName = "NB09"                 # Gewuenschter Name
-
 $loeschuser = "crapuser"                 # Zu loeschender user BSP "DummerUser4"
 $userPWbearbeitung = "Administrator"        # User dessen Passwort geaendert werden soll BSP "User13"
 
@@ -68,7 +66,7 @@ Write-Host "        $userPWbearbeitung "
 Write-Host "        benoetigt!"
 Write-Host " "
 
-$neuespw = read-host "Passwort $userPWbearbeitung" -asSecureString                  # WLAN Key 1
+$neuespw = read-host "Passwort $userPWbearbeitung" -asSecureString                  # Neues User-PW
 
 
 #--- Phase I - Name, User, WLAN1 und Updates -------------------------------------------------------------------------------------------------------------------------------------------------------------------

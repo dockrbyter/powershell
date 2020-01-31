@@ -7,7 +7,7 @@ Hilft Notebooks nach der Windowsinstallation nach Hause zu finden
 
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-$neuerName = "NB09"                 # Gewuenschter Name
+$neuerHostName = "NB09"                 # Gewuenschter Name
 
 $loeschuser = "crapuser"                 # Zu loeschender user BSP "DummerUser4"
 $userPWbearbeitung = "Administrator"        # User dessen Passwort geaendert werden soll BSP "User13"
@@ -25,7 +25,27 @@ $domaintojoin = "powerpetting.party"        # Domainname BSP: "pettingzoo.party"
 
 
 #--- Verarbeitung ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# Phase 0 - Begruessung und Credentials
+# Phase 0- Temp-File check
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Phase 0.5 - Begruessung und Credentials
 
 Clear-Host
 Write-Host " "
@@ -69,3 +89,50 @@ Write-Host "        benoetigt!"
 Write-Host " "
 
 $neuespw = read-host "Passwort $userPWbearbeitung" -asSecureString                  # Neues User-PW
+
+
+
+
+
+
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Remove-LocalUser -Name $loeschuser                              # Ueberfluessiger User loeschen
+
+$userX = Get-LocalUser -Name $userPWbearbeitung                 # Get-LocalUser binden
+$userX | Set-LocalUser -Password $neuespw                       # Passwort fuer User aendern
+
+Clear-Host
+Write-Host " "
+Write-Host " "
+Write-Host " Ueberfluessinger User $loeschuser entfernt!"
+Write-Host " Passwort fuer $userPWbearbeitung gesetzt!"
+Write-Host " "
+Start-Sleep -Milliseconds 800
+Clear-Host 
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+# Rename
+
+Rename-Computer -NewName $neuerHostName                         # Hostname aendern
+
+
+# Temp-File setzen
+
+
+
+
+
+# 

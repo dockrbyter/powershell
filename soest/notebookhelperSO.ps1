@@ -208,7 +208,7 @@ Start-Sleep -Milliseconds 900
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-CClear-Host
+Clear-Host
 Write-Host " "
 Write-Host " "
 Write-Host "   Neustart des Systems in 5 Sekunden!"
@@ -217,3 +217,5 @@ Start-Sleep -Seconds 5
 
 Restart-Computer -Force           # Neustart
 
+#######
+#####

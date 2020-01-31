@@ -2,6 +2,6 @@
 hostnamechanger.ps1
 #>
 
-$neuerName = "R213PC02"
+$neuerHostName = "R213PC02"
 
-Rename-Computer -NewName $neuerName
+Rename-Computer -NewName $neuerHostName

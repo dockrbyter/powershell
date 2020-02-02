@@ -23,7 +23,7 @@ $gpuinfoname = (Get-Wmiobject Win32_VideoController).Name
 $gpuinforam= (Get-Wmiobject Win32_VideoController).AdapterRAM
 $gpuinforeshor = (Get-Wmiobject Win32_VideoController).CurrentHorizontalResolution
 $gpuinforesver = (Get-Wmiobject Win32_VideoController).CurrentVerticalResolution
-$hddgb = Get-WMIObject Win32_Logicaldisk| Select DeviceID, @{Name="Total GB";Expression={$_.Size/1GB -as [int]}}, @{Name="Freie GB";Expression={[math]::Round($_.Freespace/1GB,2)}}
+$hddgb = Get-WMIObject Win32_Logicaldisk | Select-Object DeviceID, @{Name="Total GB";Expression={$_.Size/1GB -as [int]}}, @{Name="Freie GB";Expression={[math]::Round($_.Freespace/1GB,2)}}
 $hddtyp = (Get-WMIObject win32_diskdrive).model 
 $netinfoadapter = Get-NetAdapter -Name "*" | Format-List -Property "Name", "InterfaceDescription", "MacAddress", "LinkSpeed"
 $netinfoip = Get-NetIPAddress |Select-Object IPv4Address, InterfaceAlias

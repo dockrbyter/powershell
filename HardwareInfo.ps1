@@ -75,6 +75,8 @@ $stringboardinfohersteller
 $stringboardinfoproduct
 $stringboardinfoserial
 Write-Host " "
+Write-Host " "
+Write-Host "Firmware " -ForegroundColor Blue
 $boardfirmware
 Write-Host " "
 Write-Host "___________________________________________________________________________ " -ForegroundColor White

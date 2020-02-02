@@ -30,7 +30,7 @@ $netinfoip = Get-NetIPAddress |Select-Object IPv4Address, InterfaceAlias
 
 
 # Concat
-$stringhost = [System.String]::Concat("   Host             ", $env:computername, "  ~  Windows 10 ", $winbuild, "  ~  ", $windom)
+$stringhost = [System.String]::Concat("   ", $env:computername, "  ~  Windows 10 ", $winbuild, "  ~  ", $windom)
 $stringcpuinfos = [System.String]::Concat("                    ", $cpuinfos)
 $stringboardinfohersteller = [System.String]::Concat("   Hersteller:      ", $boardinfohersteller)
 $stringboardinfoproduct = [System.String]::Concat("   Typ:             ", $boardinfoproduct)
@@ -62,7 +62,11 @@ Write-Host "          __   __   __         __   __   ___            ___  __ "
 Write-Host "    |__| |__| |__/ |  \ | | | |__| |__/ |___    | |\ | |___ |  | "  
 Write-Host "    |  | |  | |  \ |__/ |_|_| |  | |  \ |___    | | \| |    |__| " 
 Write-Host " "
-$stringhost 
+Write-Host "___________________________________________________________________________ " -ForegroundColor White
+Write-Host "Host " -ForegroundColor Blue
+Write-Host " "
+$stringhost
+Write-Host " "
 Write-Host "___________________________________________________________________________ " -ForegroundColor White
 Write-Host "CPU " -ForegroundColor Blue
 Write-Host " "

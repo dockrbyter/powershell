@@ -52,27 +52,30 @@ function Set-ConsoleColor ($bc, $fc) {
     $Host.UI.RawUI.ForegroundColor = $fc
     Clear-Host
 }
-Set-ConsoleColor 'DarkGray' 'DarkGreen'
+Set-ConsoleColor 'White' 'DarkGreen'
 
 Clear-Host
 
+Write-Host "*****************************************************************************" -ForegroundColor Magenta
+Write-Host "** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** **" -ForegroundColor Magenta
+Write-Host "*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *" -ForegroundColor Magenta
 Write-Host " "
 Write-Host " "
 Write-Host "          __   __   __         __   __   ___            ___  __ " 
 Write-Host "    |__| |__| |__/ |  \ | | | |__| |__/ |___    | |\ | |___ |  | "  
 Write-Host "    |  | |  | |  \ |__/ |_|_| |  | |  \ |___    | | \| |    |__| " 
 Write-Host " "
-Write-Host "___________________________________________________________________________ " -ForegroundColor White
+Write-Host "_____________________________________________________________________________ " -ForegroundColor Magenta
 Write-Host "Host " -ForegroundColor Blue
 Write-Host " "
 $stringhost
 Write-Host " "
-Write-Host "___________________________________________________________________________ " -ForegroundColor White
+Write-Host "____________________________________________________________________________ " -ForegroundColor Magenta
 Write-Host "CPU " -ForegroundColor Blue
 Write-Host " "
 $stringcpuinfos
 Write-Host " "
-Write-Host "___________________________________________________________________________ " -ForegroundColor White
+Write-Host "____________________________________________________________________________ " -ForegroundColor Magenta
 Write-Host "BOARD " -ForegroundColor Blue
 Write-Host " "
 $stringboardinfohersteller 
@@ -83,7 +86,7 @@ Write-Host " "
 Write-Host "Firmware " -ForegroundColor Blue
 $boardfirmware
 Write-Host " "
-Write-Host "___________________________________________________________________________ " -ForegroundColor White
+Write-Host "____________________________________________________________________________ " -ForegroundColor Magenta
 Write-Host "RAM " -ForegroundColor Blue
 Write-Host " "
 $stringraminfohersteller
@@ -91,14 +94,14 @@ $stringraminfogroesse
 $stringraminfoserial
 $stringraminfogrototal
 Write-Host " "
-Write-Host "___________________________________________________________________________ " -ForegroundColor White
+Write-Host "____________________________________________________________________________ " -ForegroundColor Magenta
 Write-Host "GPU " -ForegroundColor Blue
 Write-Host " "
 $stringgpuinfoname
 $stringgpuinforam
 $stringgpuinfores
 Write-Host " "
-Write-Host "___________________________________________________________________________ " -ForegroundColor White
+Write-Host "____________________________________________________________________________ " -ForegroundColor Magenta
 Write-Host "HDD " -ForegroundColor Blue
 Write-Host " "
 Write-Host " "
@@ -107,7 +110,7 @@ Write-Host "Typ " -ForegroundColor Blue
 Write-Host " "
 $hddtyp
 Write-Host " "
-Write-Host "___________________________________________________________________________ " -ForegroundColor White
+Write-Host "____________________________________________________________________________ " -ForegroundColor Magenta
 Write-Host "Netzwerk " -ForegroundColor Blue
 Write-Host " "
 $netinfoip
@@ -115,10 +118,11 @@ Write-Host " "
 Write-Host "Adapter " -ForegroundColor Blue
 $netinfoadapter
 Write-Host " "
-Write-Host "___________________________________________________________________________ " -ForegroundColor White
 Write-Host " "
 Write-Host " "
+Write-Host "*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *" -ForegroundColor Magenta
+Write-Host "** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** **" -ForegroundColor Magenta
+Write-Host "*****************************************************************************" -ForegroundColor Magenta
 
 pause
-
 

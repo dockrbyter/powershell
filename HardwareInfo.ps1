@@ -52,7 +52,7 @@ function Set-ConsoleColor ($bc, $fc) {
     $Host.UI.RawUI.ForegroundColor = $fc
     Clear-Host
 }
-Set-ConsoleColor 'White' 'DarkGreen'
+Set-ConsoleColor 'Gray' 'DarkGreen'
 
 Clear-Host
 

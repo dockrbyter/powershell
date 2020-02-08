@@ -61,7 +61,7 @@ $windom = (Get-WmiObject Win32_ComputerSystem).Domain                           
 $winbuild = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\" -Name ReleaseID).ReleaseId      # Winbuild ermitteln
 
 $schedaction = New-ScheduledTaskAction –Execute "$pshome\powershell.exe" -Argument  "$scripttarget; quit"           # Action fuer geplante Task
-$schedsettings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -RunOnlyIfNetworkAvailable -DontStopOnIdleEnd
+$schedsettings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -DontStopOnIdleEnd
 $schedtrigger = New-JobTrigger -Once -AtLogOn -RandomDelay 00:00:05
 
 $scriptjobname = ($scriptdatei -replace ".{4}$")                                                                    # Dateiendung entfernen - Script

@@ -4,7 +4,7 @@ notebookhelperv2.ps1
 Hilft Notebooks nach der Windowsinstallation nach Hause zu finden
 
     Loescht einen User, vergibt ein neues Passwort fuer einen anderen Userbenennt das System um, tritt einem ersten WLAN bei um Updates zu installieren, 
-    loescht dieses dann wieder um den finalen WLAN beizutreten, legt Proxy-Server fest und tritt der Domain bei. In diesem Vorgang wird das System zwei mal neugestartet.
+    loescht dieses dann wieder um dem finalen WLAN beizutreten, legt Proxy-Server fest und tritt der Domain bei. In diesem Vorgang wird das System zwei mal neugestartet.
     Dabei kopiert sich das Script selbst nach Temp und legt eine geplante Task an, die das Script nach dem Einloggen wieder startet.
     Wenn das Script mit seinen Aufgaben fertig ist, entfernt es sich und die geplante Task wieder vom System. 
 

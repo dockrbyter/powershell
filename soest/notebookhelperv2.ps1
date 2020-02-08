@@ -47,38 +47,35 @@ Clear-Host
 
 $scriptdatei = $MyInvocation.MyCommand.Name                                                                         # Script-Variable zusammenbauen
 $scriptquelle = [System.String]::Concat($PSScriptRoot, "\", $MyInvocation.MyCommand.Name)                           # Script-Variable zusammenbauen
-$scripttarget = [System.String]::Concat($scriptfilepath, "\", $scriptdatei)                                        # Script-Variable zusammenbauen
+$scripttarget = [System.String]::Concat($scriptfilepath, "\", $scriptdatei)                                         # Script-Variable zusammenbauen
 $windom = (Get-WmiObject Win32_ComputerSystem).Domain                                                               # Domain ermitteln
 $winbuild = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\" -Name ReleaseID).ReleaseId      # Winbuild ermitteln
+
+$schedaction = New-ScheduledTaskAction –Execute "$pshome\powershell.exe" -Argument  "$scripttarget; quit"           # Action fuer geplante Task
+$schedsettings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -RunOnlyIfNetworkAvailable -DontStopOnIdleEnd
+$schedtrigger = New-JobTrigger -Once -AtLogOn -RandomDelay 00:00:05
 
 $scriptjobname = ($scriptdatei -replace ".{4}$")                                                                    # Dateiendung entfernen - Script
 $wlanEntf = ($wlanEntf  -replace ".{4}$")                                                                           # Dateiendung entfernen - WLAN-Profil
 
 $stringhost = [System.String]::Concat("[ ", $env:UserName, " @ ", $env:computername, " @ ", $windom, " @ Windows 10:", $winbuild, " ]   ", (Get-Date), "`n", "  ", $MyInvocation.MyCommand.Name)
 $stringatuser = [System.String]::Concat("   ", "@ ", $env:UserName, ":")
-
 $stringusercred = [System.String]::Concat("   ", "Neues Passwort fuer ", $userPWbearbeitung, " benoetigt!")
-
 $stringrename = [System.String]::Concat("   ", "System in ", $neuerHostName, " umbenannt")
-
 $stringrb1 = [System.String]::Concat("   ", "Wir sind noch nicht fertig,", $env:computername, "!")
 $stringrb2 = [System.String]::Concat("   ", "Du bist immer noch in  ", $windom)
 $stringrb3 = [System.String]::Concat("   ", "und musst nach  ", $domaintojoin)
 $stringrb4 = [System.String]::Concat("   ", $domaintojoin, "benoetigt!")
-
 $stringwlan11 = [System.String]::Concat("   ", "Trete WLAN-1: ", $wlanProfil1, " bei, warte dann ", $wlanDelay, " Sekunden...")
 $stringwlan12 = [System.String]::Concat("   ", "WLAN-1: ", $wlanProfil1, " beigetreten. Warte nun ", $wlanDelay, " Sekunden...")
 $stringwlan21 = [System.String]::Concat("   ", "Trete WLAN-2: ", $wlanProfil2, " bei, warte dann ", $wlanDelay, " Sekunden...")
 $stringwlan22 = [System.String]::Concat("   ", "WLAN-2: ", $wlanProfil2, " beigetreten. Warte nun ", $wlanDelay, " Sekunden...")
-$stringwlanenft = [System.String]::Concat("   ", "Entferne WLAN: ", $wlanEntf, ", warte dann ", $wlanDelay, " Sekunden...")
-
+$stringwlanenft1 = [System.String]::Concat("   ", "Entferne WLAN: ", $wlanEntf, ", warte dann ", $wlanDelay, " Sekunden...")
+$stringwlanenft2 = [System.String]::Concat("   ", $wlanEntf, ", entfernt! Warte nun ", $wlanDelay, " Sekunden...")
 $stringproxy = [System.String]::Concat("   ", "Setze Proxy-Server: ", $proxyserver , ", warte dann ", $proxyDelay, " Sekunden...")
-
 $stringdomain11 = [System.String]::Concat("   ", "Trete Domain: ", $domaintojoin, " bei.")
 $stringdomain12 = [System.String]::Concat("   ", "Domain: ", $domaintojoin, " beigetreten!")
-
 $stringreboot = [System.String]::Concat("   ", "Neustart von ", $env:computername, " steht bevor!")
-
 $stringerledgit1 = [System.String]::Concat("   ", "Das Notebook", $env:computername, " ist jetzt")
 $stringerledgit2 = [System.String]::Concat("   ", "zuhause in der Domain", $domaintojoin, " angekommen.")
 $stringerledgit3 = [System.String]::Concat("   ", "Ausserdem ist das WLAN-Profil", $wlanProfil2, " aktiv,")
@@ -200,7 +197,34 @@ if (Test-Path $scripttarget -PathType leaf)
     
     #--- Phase 7 - Neustart 2 Vorbereitungen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+    Clear-Host
+    Write-Host " "
+    Write-Host $stringhost -ForegroundColor Magenta
+    Write-Host " "
+    Write-Host " "
+    Write-Host "   Zeit zum Aufraeumen..." -ForegroundColor Cyan
+    Write-Host "   EXISTENCE IS PAIN :D" -ForegroundColor Cyan
+    Write-Host " "
+    Write-Host " "
+    Write-Host "   Loesche mich selbst vom System..."
+    Write-Host " "
+    Start-Sleep -Seconds 1
 
+        Unregister-ScheduledTask -TaskName $scriptjobname -Confirm:$false       # Geplante Task loeschen
+
+        Remove-Item -Path $MyInvocation.MyCommand.Source                        # Script Selbstzerstoerung
+    
+    Clear-Host
+    Write-Host " "
+    Write-Host $stringhost -ForegroundColor Magenta
+    Write-Host " "
+    Write-Host " "
+    Write-Host "   ...tat auch fast nicht weh..." -ForegroundColor Cyan
+    Write-Host " "
+    Write-Host " "
+    Write-Host "   Script-Daten entfernt"
+    Write-Host " "
+    Start-Sleep -Seconds 1
 
     
     #--- Phase 7 - Neustart 2 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -235,9 +259,9 @@ Write-Host " "
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host " "
 Write-Host " "
-Write-Host "   Hey hey hey!"  -ForegroundColor Cyan
-Write-Host "   Hast du dich verlaufen, kleines Notebook?"  -ForegroundColor Cyan
-Write-Host "   Ich helfe dir nach Hause..."  -ForegroundColor Cyan
+Write-Host "   Hey hey hey!" -ForegroundColor Cyan
+Write-Host "   Hast du dich verlaufen, kleines Notebook?" -ForegroundColor Cyan
+Write-Host "   Ich helfe dir nach Hause..." -ForegroundColor Cyan
 Write-Host " "
 Write-Host " "
 Write-Host " "
@@ -245,7 +269,7 @@ Write-Host " "
 Start-Sleep -Seconds 3
 
 
-#--- Phase 1 - Neues Passwort eingeben ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#--- Phase 1 - Credentials ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Clear-Host
 Write-Host " "
@@ -258,7 +282,34 @@ Write-Host $stringusercred
 Write-Host " "
 Write-Host " "
 
-$neuespw = Read-Host "Passwort $userPWbearbeitung" -asSecureString                  # Neues User-PW
+    $neuespw = Read-Host "Passwort $userPWbearbeitung" -asSecureString                  # Neues User-PW
+
+Clear-Host
+Write-Host " "
+Write-Host $stringhost -ForegroundColor Magenta
+Write-Host " "
+Write-Host " "
+Write-Host " "
+Write-Host $stringatuser -ForegroundColor DarkRed
+Write-Host "   Ich muss das System spaeter neustarten und dann weiter machen."
+Write-Host "   Dafuer benoetige ich die Credentials des aktuellen Benutzers."
+Write-Host " "
+Write-Host " "
+
+    $msg = "Credentials fuer geplante Task eingeben" 
+    $schedcredential = $Host.UI.PromptForCredential("Geplante Task",$msg,"$env:userdomain\$env:username",$env:userdomain)
+
+Clear-Host
+Write-Host " "
+Write-Host $stringhost -ForegroundColor Magenta
+Write-Host " "
+Write-Host " "
+Write-Host "   Gut gemacht!" -ForegroundColor Cyan
+Write-Host "   Ab jetzt komme ich erstmal allein klar..." -ForegroundColor Cyan
+Write-Host " "
+Write-Host " "
+Start-Sleep -Seconds 1
+Clear-Host
 
 #--- Phase 2 - User entfernen -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -325,11 +376,11 @@ Clear-Host
 
 #--- Phase 3 - Updates --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Install-Module -Name PSWindowsUpdate -Force             # PowerShell Update-Modul installieren
-Import-Module PSWindowsUpdate                           # PowerShell Update-Modul importieren
+Install-Module -Name PSWindowsUpdate -Force                 # PowerShell Update-Modul installieren
+Import-Module PSWindowsUpdate                               # PowerShell Update-Modul importieren
 
-    Download-WindowsUpdate -ForceDownload               # Updates downloaden
-    Install-WindowsUpdate -ForceInstall                 # Updates installieren
+    Download-WindowsUpdate -ForceDownload -Confirm:$false   # Updates downloaden
+    Install-WindowsUpdate -ForceInstall -Confirm:$false     # Updates installieren
 
 Clear-Host
 Write-Host " "
@@ -345,7 +396,18 @@ Clear-Host
 
 #--- Phase 3 - WLAN 1 entfernen -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    Netsh wlan delete profile $wlanProfil1 -Force                        # WLAN Profil loeschen
+Clear-Host
+Write-Host " "
+Write-Host $stringhost -ForegroundColor Magenta
+Write-Host " "
+Write-Host " "
+Write-Host " "
+Write-Host $stringwlanenft1
+Write-Host " "
+Start-Sleep -Seconds 1
+Clear-Host
+
+    Netsh wlan delete profile $wlanProfil1 -Force           # WLAN Profil loeschen
 
 Clear-Host
 Write-Host " "
@@ -353,7 +415,7 @@ Write-Host $stringhost -ForegroundColor Magenta
 Write-Host " "
 Write-Host " "
 Write-Host " "
-Write-Host $stringwlanenft
+Write-Host $stringwlanenft2
 Write-Host " "
 Start-Sleep -Seconds $wlanDelay
 Clear-Host
@@ -398,10 +460,26 @@ Write-Host " "
 Start-Sleep -Seconds 1
 Clear-Host
 
-    Copy-Item $scriptquelle -Destination $scripttarget                                      # Script auf Host kopieren
+    Copy-Item $scriptquelle -Destination $scripttarget              # Script auf Host kopieren
 
-    $trigger = New-JobTrigger -AtLogOn -RandomDelay 00:00:05                                # Trigger fuer Task deffinieren
-    Register-ScheduledJob -Trigger $trigger -FilePath $scripttarget -Name $scriptjobname    # Neue Task erstellen
+    $scheduser = $schedcredential.UserName                          # Task-User Variable
+    $schedpw = $schedcredential.GetNetworkCredential().Password     # Task-Passwort Variable
+   
+    Register-ScheduledTask -TaskName $scriptjobname -Action $schedaction -Trigger $schedtrigger -RunLevel Highest -User $scheduser -Password $schedpw -Settings $schedsettings    # Neue Task erstellen
+
+Clear-Host
+Write-Host " "
+Write-Host $stringhost -ForegroundColor Magenta
+Write-Host " "
+Write-Host " "
+Write-Host " "
+Write-Host "   Wir sehen uns gleich wieder..." -ForegroundColor Cyan
+Write-Host " "
+Write-Host " "
+Write-Host "   Vorbereitungen abgeschlossen."
+Write-Host " "
+Start-Sleep -Seconds 1
+Clear-Host
 
 
 #--- Phase 4 - Neustart 1 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

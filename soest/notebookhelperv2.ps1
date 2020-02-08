@@ -3,6 +3,11 @@ notebookhelperv2.ps1
 
 Hilft Notebooks nach der Windowsinstallation nach Hause zu finden
 
+    Loescht einen User, vergibt ein neues Passwort fuer einen anderen Userbenennt das System um, tritt einem ersten WLAN bei um Updates zu installieren, 
+    loescht dieses dann wieder um den finalen WLAN beizutreten, legt Proxy-Server fest und tritt der Domain bei. In diesem Vorgang wird das System zwei mal neugestartet.
+    Dabei kopiert sich das Script selbst nach Temp und legt eine geplante Task an, die das Script nach dem Einloggen wieder startet.
+    Wenn das Script mit seinen Aufgaben fertig ist, entfernt es sich und die geplante Task wieder vom System. 
+
 #>
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -16,14 +21,11 @@ $wlanProfil2 = "WLAN10004.xml"          # Zu importierendes WLAN-Profil 2
 $wlanEntf = $wlanProfil1                # Zu loeschendes WLAN-Profil
     $wlanDelay = "10"                   # Die Zeit nach WLAN-Beitritt um auf Adaptnerneustart zu warten in Sekunden BSP "10"
 
-$proxyserver = "101.102.103.104:16969"       # Proxy + Port BSP: "172.16.0.1:8080"
+$proxyserver = "101.102.103.104:16969"  # Proxy + Port BSP: "172.16.0.1:8080"
     $proxyDelay = "3"                   # Zu wartende Zeit nach Proxy-Anfrage in Sekunden BSP "5"
 
 $domaintojoin = "powerpetting.party"    # Domainname BSP: "pettingzoo.party"
     #$oupfad = "OU=Noteboocks,OU=Raum 1408,DC=ad,DC=pettingzoo,DC=party"             # Der OU-Pfad (distinguishedName) BSP: "OU=Noteboocks,OU=Raum 1408,DC=ad,DC=pettingzoo,DC=party"
-
-
-$scriptfilepath = $env:TEMP             # Ziel-Pfad des Scripts (Script wird auf den Host kopiert und entfernt) BSP: "C:\tmp"
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -35,7 +37,13 @@ Write-Host " "
 Write-Host " "
 Write-Host " "
 Write-Host " "
-Write-Host "   -- Notebook Helper V2 -- "
+Write-Host "  _______          __        ___.                  __       ___ ___         .__                        ____   ____________   " -ForegroundColor Cyan
+Write-Host "  \      \   _____/  |_  ____\_ |__   ____   ____ |  | __  /   |   \   ____ |  | ______   ___________  \   \ /   /\_____  \  " -ForegroundColor Cyan
+Write-Host "  /   |   \ /  _ \   __\/ __ \| __ \ /  _ \ /  _ \|  |/ / /    ~    \_/ __ \|  | \____ \_/ __ \_  __ \  \   Y   /  /  ____/  " -ForegroundColor Cyan
+Write-Host " /    |    (  <_> )  | \  ___/| \_\ (  <_> |  <_> )    <  \    Y    /\  ___/|  |_|  |_> >  ___/|  | \/   \     /  /       \  " -ForegroundColor Cyan
+Write-Host " \____|__  /\____/|__|  \___  >___  /\____/ \____/|__|_ \  \___|_  /  \___  >____/   __/ \___  >__|       \___/   \_______ \ " -ForegroundColor Cyan
+Write-Host "         \/                 \/    \/                   \/        \/       \/     |__|        \/                           \/ " -ForegroundColor Cyan
+Write-Host " "
 Write-Host " "
 Write-Host " "
 Write-Host " "
@@ -45,6 +53,7 @@ Clear-Host
 
 #--- Phase 0 - Vorbereitung ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+$scriptfilepath = $env:TEMP                                                                                         # Script-Variable zusammenbauen
 $scriptdatei = $MyInvocation.MyCommand.Name                                                                         # Script-Variable zusammenbauen
 $scriptquelle = [System.String]::Concat($PSScriptRoot, "\", $MyInvocation.MyCommand.Name)                           # Script-Variable zusammenbauen
 $scripttarget = [System.String]::Concat($scriptfilepath, "\", $scriptdatei)                                         # Script-Variable zusammenbauen
@@ -84,7 +93,7 @@ $stringerledgit4 = [System.String]::Concat("   ", "Updates installier und der Pr
 
 #--- Phase 1 - Reboot-Check Script-File ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-if (Test-Path $scripttarget -PathType leaf)
+if (Test-Path $scripttarget -PathType leaf)     # Wenn Script in Temp vorahnden, dann...
 {   
     #--- Phase 5 - Nach dem Reboot --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     

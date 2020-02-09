@@ -57,7 +57,7 @@ $scriptfilepath = $env:TEMP                                                     
 $scriptdatei = $MyInvocation.MyCommand.Name                                                                         # Script-Variable zusammenbauen
 $scriptquelle = [System.String]::Concat($PSScriptRoot, "\", $MyInvocation.MyCommand.Name)                           # Script-Variable zusammenbauen
 $scripttarget = [System.String]::Concat($scriptfilepath, "\", $scriptdatei)                                         # Script-Variable zusammenbauen
-$windom = (Get-WmiObject Win32_ComputerSystem).Domain                                                               # Domain ermitteln
+$windom = ((Get-WmiObject Win32_ComputerSystem).Domain)                                                               # Domain ermitteln
 $winbuild = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\" -Name ReleaseID).ReleaseId      # Winbuild ermitteln
 
 $schedaction = New-ScheduledTaskAction –Execute "$pshome\powershell.exe" -Argument  "$scripttarget; quit"           # Action fuer geplante Task

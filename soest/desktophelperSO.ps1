@@ -14,7 +14,7 @@ $userPWbearbeitung = "Administrator"        # User dessen Passwort geaendert wer
 
 $proxyserver = "10.10.10.10:8080"   # Proxy + Port BSP: "172.16.0.1:8080"
 
-$domaintojoin = "superpaceinvader.solar"        # Domainname BSP: "pettingzoo.party"
+$domaintojoin = "superspaceinvader.solar"        # Domainname BSP: "pettingzoo.party"
     #$oupfad = "OU=Noteboocks,OU=Raum 1408,DC=ad,DC=pettingzoo,DC=party"             # Der OU-Pfad (distinguishedName) BSP: "OU=Noteboocks,OU=Raum 1408,DC=ad,DC=pettingzoo,DC=party"
 
 

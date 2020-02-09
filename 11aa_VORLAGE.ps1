@@ -1,7 +1,7 @@
 <#
 VORLAGE.ps1
 
-Script-Vorlage
+    Script-Vorlage
 
 #>
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -11,19 +11,18 @@ Script-Vorlage
 
 #--- Vorbereitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-$stringhost = [System.String]::Concat("[ ", $env:UserName, " @ ", $env:computername, " @ ", $windom, " @ Windows 10:", $winbuild, " ]   ", (Get-Date), "`n", "  ", $MyInvocation.MyCommand.Name)
+$stringhost = [System.String]::Concat("`n", "[ ", $env:UserName, " @ ", $env:computername, " @ ", ((Get-WmiObject Win32_ComputerSystem).Domain), " @ Windows 10: ", 
+((Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\" -Name ReleaseID).ReleaseId), " ]   ", (Get-Date), "`n", "[ ", $MyInvocation.MyCommand.Name, " ]", "`n","`n")
 
 
 #--- Verarbeitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Clear-Host
-Write-Host " "
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host " "
-Write-Host " "
-Write-Host " "
 Start-Sleep -Seconds 1
-Clear-Host
+
+pause
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

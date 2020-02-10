@@ -4,7 +4,7 @@ netsharestarter.ps1
 Original:
 https://support.microsoft.com/de-de/help/4471218/mapped-network-drive-may-fail-to-reconnect-in-windows-10-version-1809
 
-
+    - Script angeeinetem Ort speichern
     - Geplante Task erstellen
         - Benutzer oder Gruppe auswaehlen BSP LocalComputer\Users
         - Neuer Trigger: Beim Anmelden

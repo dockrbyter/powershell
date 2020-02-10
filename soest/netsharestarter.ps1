@@ -20,7 +20,7 @@ https://support.microsoft.com/de-de/help/4471218/mapped-network-drive-may-fail-t
 $i=3
 while($True){
     $error.clear()
-    $MappedDrives = Get-SmbMapping |where -property Status -Value Unavailable -EQ | select LocalPath,RemotePath
+    $MappedDrives = Get-SmbMapping | Where-Object -property Status -Value Unavailable -EQ | Select-Object LocalPath,RemotePath
     foreach( $MappedDrive in $MappedDrives)
     {
         try {

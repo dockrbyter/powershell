@@ -42,30 +42,28 @@ $taskscript = "netsharestarter.ps1"
 $scriptjobname = ($taskscript -replace ".{4}$")
 $scripttarget = "$taskhome\$taskscript"
 $taskscriptcontent = [System.String]::Concat(
-    "$i=3", "`n",
-    "while($True){", "`n",
-    "$error.clear()", "`n",
-    "$MappedDrives = Get-SmbMapping | Where-Object -property Status -Value Unavailable -EQ | Select-Object LocalPath,RemotePath", "`n",
-    "foreach( $MappedDrive in $MappedDrives)", "`n",
-    " { try {", "`n",
-    " New-SmbMapping -LocalPath $MappedDrive.LocalPath -RemotePath $MappedDrive.RemotePath -Persistent $True", "`n",
-    "} catch {", "`n",
-    "Write-Host $MappedDrive.RemotePath $MappedDrive.LocalPath", "`n",
-    " } }", "`n",
-    "$i = $i - 1", "`n",
-    "if($error.Count -eq 0 -Or $i -eq 0) {break}", "`n",
-    "`n",
-    "Start-Sleep -Seconds 30", "`n",
-    "`n",
-    "}")
+        "$i=3 while($True){ $error.clear() $MappedDrives = Get-SmbMapping | Where-Object -property Status -Value Unavailable -EQ | Select-Object LocalPath,RemotePath foreach( $MappedDrive in $MappedDrives)
+            {
+                try {
+                    New-SmbMapping -LocalPath $MappedDrive.LocalPath -RemotePath $MappedDrive.RemotePath -Persistent $True
+                } catch {
+                    Write-Host "There was an error mapping $MappedDrive.RemotePath to $MappedDrive.LocalPath"
+                }
+            }
+            $i = $i - 1
+            if($error.Count -eq 0 -Or $i -eq 0) {break}
+        
+            Start-Sleep -Seconds 30
+        
+        }")
     
-$schedaction = New-ScheduledTaskAction –Execute "$pshome\powershell.exe" -Argument  "$scripttarget; quit"           # Action fuer geplante Task
+$schedaction = New-ScheduledTaskAction "$pshome\powershell.exe" -Argument  "$scripttarget; quit"
 $schedsettings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -DontStopOnIdleEnd
 $schedtrigger = New-JobTrigger -AtLogOn
 
 
 #--- Verarbeitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-<#
+
 Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host $stringinterface
@@ -84,15 +82,16 @@ New-PSDrive -Name $smblocal3 -PSProvider FileSystem -Root "$smbshare3" -Persist 
 
 Write-Host "   ...Ok, wenn alles gut aussieht, druecke Enter, damit es weiter geht."
     Pause
-#>
 
+<#
 Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host "   ...das haetten wir."
 Write-Host "   Erstelle Script fuer geplante Task..."
 Start-Sleep -Seconds 1.5
 
-Set-Content -Path $taskscriptpfad -Value $taskscriptcontent
+Set-Content -Path $scripttarget -Value $taskscriptcontent
+pause
 
 Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
@@ -109,3 +108,5 @@ Write-Host "   Bei jedem Login wird sichergestellt, dass die Netzlaufwerke verfu
 Write-Host " "
 Write-Host "   Das wars..."
 Start-Sleep -Seconds 1.5
+
+#>

@@ -52,5 +52,11 @@ New-PSDrive -Name $smblocal1 -PSProvider FileSystem -Root "$smbshare1" -Persist 
 New-PSDrive -Name $smblocal2 -PSProvider FileSystem -Root "$smbshare2" -Persist -Credential $smbcred -Scope Global
 New-PSDrive -Name $smblocal3 -PSProvider FileSystem -Root "$smbshare3" -Persist -Credential $smbcred -Scope Global
 
+Start-Sleep -Seconds 1
+
+Clear-Host
+Write-Host $stringhost -ForegroundColor Magenta
+Write-Host "   Ok, das haetten wir... Zeit fuer eine geplante Task!"
+Write-Host " "
 Start-Sleep -Seconds 2
 

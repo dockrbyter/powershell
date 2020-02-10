@@ -67,7 +67,7 @@ $schedtrigger = New-JobTrigger -Once -AtLogOn -RandomDelay 00:00:05
 $scriptjobname = ($scriptdatei -replace ".{4}$")                                                                    # Dateiendung entfernen - Script
 $wlanEntf = ($wlanEntf  -replace ".{4}$")                                                                           # Dateiendung entfernen - WLAN-Profil
 
-$stringhost = [System.String]::Concat("[ ", $env:UserName, " @ ", $env:computername, " @ ", $windom, " @ Windows 10:", $winbuild, " ]   ", (Get-Date), "`n", "  ", $MyInvocation.MyCommand.Name)
+$stringhost = [System.String]::Concat("[ ", $env:UserName, " @ ", $env:computername, " @ ", $windom, " @ Windows 10:", $winbuild, " ]   ", (Get-Date -Format “dd/MM/yyyy HH:mm:ss), "`n", "  ", $MyInvocation.MyCommand.Name)
 $stringatuser = [System.String]::Concat("   ", "@ ", $env:UserName, ":")
 $stringusercred = [System.String]::Concat("   ", "Neues Passwort fuer ", $userPWbearbeitung, " benoetigt!")
 $stringrename = [System.String]::Concat("   ", "System in ", $neuerHostName, " umbenannt")

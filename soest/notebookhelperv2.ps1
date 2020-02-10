@@ -68,7 +68,7 @@ $scriptjobname = ($scriptdatei -replace ".{4}$")                                
 $wlanEntf = ($wlanEntf  -replace ".{4}$")                                                                           # Dateiendung entfernen - WLAN-Profil
 
 $stringhost = [System.String]::Concat("[ ", $env:UserName, " @ ", $env:computername, " @ ", $windom, " @ Windows 10:", $winbuild, " ]   ", (Get-Date -Format “dd/MM/yyyy HH:mm:ss), "`n", "  ", $MyInvocation.MyCommand.Name)
-$stringatuser = [System.String]::Concat("   ", "@ ", $env:UserName, ":")
+$stringatuser = [System.String]::Concat("    @ ",  $env:UserName, ":")
 $stringusercred = [System.String]::Concat("   ", "Neues Passwort fuer ", $userPWbearbeitung, " benoetigt!")
 $stringrename = [System.String]::Concat("   ", "System in ", $neuerHostName, " umbenannt")
 $stringrb1 = [System.String]::Concat("   ", "Wir sind noch nicht fertig,", $env:computername, "!")

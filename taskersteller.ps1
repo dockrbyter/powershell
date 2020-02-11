@@ -6,6 +6,11 @@ taskersteller.ps1
 #>
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+$taskuser ="*"
+
+$taskhome = "$Env:USERPROFILE\Documents\git\powershell"
+$taskscript = "netsharestarter.ps1"
+
 $scripttarget = "$taskhome\$taskscript"
 $schedaction = New-ScheduledTaskAction "$pshome\powershell.exe" -Argument  "$scripttarget; quit"
 $schedsettings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -DontStopOnIdleEnd
@@ -26,7 +31,7 @@ Write-Host $stringhost -ForegroundColor Magenta
 Write-Host " "
 Start-Sleep -Seconds 1
 
-Register-ScheduledTask -TaskName $scriptjobname -Action $schedaction -Trigger $schedtrigger -RunLevel Highest -User 'Users' -Settings $schedsettings    # Neue Task erstellen
+Register-ScheduledTask -TaskName $scriptjobname -Action $schedaction -Trigger $schedtrigger -RunLevel Highest -User $taskuser -Settings $schedsettings    # Neue Task erstellen
 
 
 
@@ -35,6 +40,6 @@ if ( Get-ScheduledTask $scriptjobname -ErrorAction Ignore ) { $smbtesttask = $sm
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+Write-Host $smbtesttask
 
 

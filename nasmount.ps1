@@ -76,9 +76,9 @@ Write-Host $stringmap
 Start-Sleep -Seconds 3
 
 
-New-PSDrive -Name $smblocal1 -PSProvider FileSystem -Root "$smbshare1" -Persist -Credential $smbcred -Scope Global
-New-PSDrive -Name $smblocal2 -PSProvider FileSystem -Root "$smbshare2" -Persist -Credential $smbcred -Scope Global
-New-PSDrive -Name $smblocal3 -PSProvider FileSystem -Root "$smbshare3" -Persist -Credential $smbcred -Scope Global
+New-PSDrive -Name $smblocal1 -PSProvider FileSystem -Root "$smbshare1" -Persistent -Credential $smbcred -Scope Global
+New-PSDrive -Name $smblocal2 -PSProvider FileSystem -Root "$smbshare2" -Persistent -Credential $smbcred -Scope Global
+New-PSDrive -Name $smblocal3 -PSProvider FileSystem -Root "$smbshare3" -Persistent -Credential $smbcred -Scope Global
 
 Write-Host "   ...Ok, wenn alles gut aussieht, druecke Enter, damit es weiter geht."
     Pause

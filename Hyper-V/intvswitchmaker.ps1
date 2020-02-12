@@ -24,6 +24,7 @@ $stringswitch2 = [System.String]::Concat("   Ok, dein - ", $switchName, " - ist 
 $adapter = Get-NetAdapter
 $switchnic = $selection
 
+
 #--- Verarbeitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Clear-Host
@@ -53,3 +54,4 @@ Write-Host $stringhost -ForegroundColor Magenta
 Write-Host $stringswitch2
 Start-Sleep -Seconds 3
 Clear-Host
+

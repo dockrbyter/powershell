@@ -12,7 +12,6 @@ $switchName = "ExtPowerVswitch"    # Name
 $switchnotes = "Hyper-V `n Virtueller externer Switch `n Intergalaktische protonengetriebene elektrische Wackelarmwerbedroiden!"
 
 
-
 #--- Vorbereitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 $stringhost = [System.String]::Concat("`n", "[ ", $env:UserName, " @ ", $env:computername, " @ ", ((Get-WmiObject Win32_ComputerSystem).Domain), " ", (Get-CimInstance Win32_OperatingSystem | Select-Object Caption), ": ", 
@@ -24,6 +23,7 @@ $stringswitch2 = [System.String]::Concat("   Ok, dein - ", $switchName, " - ist 
 $switchdesc = "External Hyper-V Switch"
 $adapter = Get-NetAdapter
 $switchnic = $selection
+
 
 #--- Verarbeitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -54,3 +54,4 @@ Write-Host $stringhost -ForegroundColor Magenta
 Write-Host $stringswitch2
 Start-Sleep -Seconds 3
 Clear-Host
+

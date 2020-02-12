@@ -1,10 +1,13 @@
 ﻿<#
 Windows10AppPurge.ps1
+.DESCRIPTION
 
-Deinstalliert nervige Apps, die bei der Windows 10 Installation mitgelierfert werden und bei Bedarf
-Software wie den MS Store, oder Edge. Legt sich auch mit Cortana an...
+  Deinstalliert nervige Apps, die bei der Windows 10 Installation mitgelierfert werden und bei Bedarf
+  Software wie den MS Store, oder Edge. Legt sich auch mit Cortana an...
 
-Schrottliste - Stand 15.10.2018
+    Schrottliste - Stand 15.10.2018
+
+https://github.com/thelamescriptkiddiemax/powershell
 #>
 
 

@@ -1,8 +1,10 @@
 ﻿<#
 Leasechen.ps1
+.DESCRIPTION
 
-DHCP-Lease Bearbeitungs-Tool fuer Windows Server 2012-R2 und neuer
+    DHCP-Lease Bearbeitungs-Tool fuer Windows Server 2012-R2 und neuer
 
+https://github.com/thelamescriptkiddiemax/powershell
 #>
 #--- Variablen -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

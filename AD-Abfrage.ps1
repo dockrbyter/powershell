@@ -1,7 +1,10 @@
 <#
 AD-Abfrage.ps1
+.DESCRIPTION
 
-	Script zur Abfrage von AD-Userdaten
+  Script zur Abfrage von AD-Userdaten
+  
+https://github.com/thelamescriptkiddiemax/powershell
 #>
 #------------------------------------------------------------------------------------------------------------------------------------
 # AD-Properties hier eintragen

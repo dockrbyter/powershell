@@ -1,8 +1,10 @@
 <#
 taskersteller.ps1
+.DESCRIPTION
 
     Erstellt geplante Jobs fuer Scripts
 
+https://github.com/thelamescriptkiddiemax/powershell
 #>
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

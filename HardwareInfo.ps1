@@ -1,9 +1,11 @@
 ﻿<#
 HardwareInfo.ps1
+.DESCRIPTION
 
-Listet Systeminformationen auf
-Hostname, CPU, Board, RAM, GPU, NIC
+    Listet Systeminformationen auf
+    Hostname, CPU, Board, RAM, GPU, NIC
 
+https://github.com/thelamescriptkiddiemax/powershell
 #>
 #--- Datenerfassung -----------------------------------------------------------------------------------------------------------------------------------------
 

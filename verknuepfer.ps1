@@ -1,6 +1,10 @@
 <# 
 verknuepfer.ps1
-Script fuer .lnk Verknüpfungen 
+.DESCRIPTION
+
+    Script fuer .lnk Verknüpfungen
+
+https://github.com/thelamescriptkiddiemax/powershell
 #>
 #--- Variablen -----------------------------------------------------------------------------------
 

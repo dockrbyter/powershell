@@ -1,11 +1,13 @@
 ﻿<#
-
 Win10ADUserPicChnager.ps1
+.DESCRIPTION
 
-Windows 10 Profilbearbeitung
+    Windows 10 Profilbearbeitung
 
-Legt das Profilbild der Active Directory Benutzer im 
-Anmeldebildschirm von Windows 10 fest
+        Legt das Profilbild der Active Directory Benutzer im 
+        Anmeldebildschirm von Windows 10 fest
+
+https://github.com/thelamescriptkiddiemax/powershell
 #>
 #--- Variablen -----------------------------------------------------------------------------------
 

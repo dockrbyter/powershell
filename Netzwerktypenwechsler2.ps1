@@ -1,7 +1,10 @@
 ﻿<#
 Netzwerktypenwechsler.ps1
-.DESRIPTION
-	Netzwerktypen Schnellwechsel
+.DESCRIPTION
+
+    Netzwerktypen Schnellwechsel
+
+https://github.com/thelamescriptkiddiemax/powershell
 #>
 #--- NetzTyp ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

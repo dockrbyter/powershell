@@ -1,9 +1,11 @@
 <#
 ISOusbburner.ps1
+.DESCRIPTION
 
     Burnt ISOs auf USB-Sticks
     LEGACY
 
+https://github.com/thelamescriptkiddiemax/powershell
 #>
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

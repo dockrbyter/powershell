@@ -1,8 +1,11 @@
 <#
 WSL-Setup.ps1
 .DESCRIPTION
+
 	Menue zur Installation des WLS
-	ohne MS Store
+    ohne MS Store
+    
+https://github.com/thelamescriptkiddiemax/powershell
 #>
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

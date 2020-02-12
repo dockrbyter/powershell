@@ -1,11 +1,13 @@
 <#
 nasmount.ps1
+.DESCRIPTION
 
     Mountet Netzlaufwerke,
     sorgt durch geplante Task dafür, dass sinnloser Windowsfehler
     nicht ausgeloest wird.
     Task-Script wird nach Publich\Documents gespeichert.
 
+https://github.com/thelamescriptkiddiemax/powershell
 #>
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

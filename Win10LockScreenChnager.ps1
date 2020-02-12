@@ -1,10 +1,12 @@
 ﻿<#
-
 Win10LockScreenChnager.ps1
+.DESCRIPTION
 
-Windows 10 Profilbearbeitung
-Legt das Hintergrundbild des Anmeldebildschirms von Windows 10 fest
+    Windows 10 Profilbearbeitung
 
+        Legt das Hintergrundbild des Anmeldebildschirms von Windows 10 fest
+
+https://github.com/thelamescriptkiddiemax/powershell
 #>
 
 

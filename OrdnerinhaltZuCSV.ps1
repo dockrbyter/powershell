@@ -1,7 +1,11 @@
 ﻿<#
 OrdnerinhaltZuCSV.ps1
-Listet Dateien aus einem beliebigen Ordner auf
-und speichert diese in einer CSV-Datei ab
+.DESCRIPTION
+
+    Listet Dateien aus einem beliebigen Ordner auf
+    und speichert diese in einer CSV-Datei ab
+
+https://github.com/thelamescriptkiddiemax/powershell
 #>
 
 

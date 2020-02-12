@@ -1,8 +1,6 @@
 <#
 netsharestarter.ps1
-
-Original:
-https://support.microsoft.com/de-de/help/4471218/mapped-network-drive-may-fail-to-reconnect-in-windows-10-version-1809
+.DESCRIPTION
 
     - Script angeeinetem Ort speichern
     - Geplante Task erstellen
@@ -12,8 +10,12 @@ https://support.microsoft.com/de-de/help/4471218/mapped-network-drive-may-fail-t
             * Powershell.exe
             * Argumente: -windowsstyle hidden -command .\netsharestarter.ps1
             * Starten in: Speicherort des Scripts
-        * Nur starten wenn folgende Netzwerkverbindung verfuegbar ist: Beliebige NIC 
+        * Nur starten wenn folgende Netzwerkverbindung verfuegbar ist: Beliebige NIC
 
+        Original:
+        https://support.microsoft.com/de-de/help/4471218/mapped-network-drive-may-fail-to-reconnect-in-windows-10-version-1809
+
+https://github.com/thelamescriptkiddiemax/powershell
 #>
 #--- Vorbereitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

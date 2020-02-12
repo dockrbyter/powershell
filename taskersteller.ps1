@@ -6,15 +6,15 @@ taskersteller.ps1
 #>
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-$taskuser ="*"
+$taskuser = "*"
 
 $taskhome = "$Env:USERPROFILE\Documents\git\powershell"
 $taskscript = "netsharestarter.ps1"
 
 $scripttarget = "$taskhome\$taskscript"
 $schedaction = New-ScheduledTaskAction "$pshome\powershell.exe" -Argument  "$scripttarget; quit"
-$schedsettings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -DontStopOnIdleEnd
-$schedtrigger = New-JobTrigger -AtLogOn
+$schedoptions = (New-ScheduledJobOption -RequireNetwork -ContinueIfGoingOnBattery -StartIfOnBattery)
+$schedtrigger = (New-JobTrigger -AtLogOn)
 $scriptjobname = $taskscript.Replace(".ps1", "")
 
 
@@ -31,7 +31,17 @@ Write-Host $stringhost -ForegroundColor Magenta
 Write-Host " "
 Start-Sleep -Seconds 1
 
-Register-ScheduledTask -TaskName $scriptjobname -Action $schedaction -Trigger $schedtrigger -RunLevel Highest -User $taskuser -Settings $schedsettings    # Neue Task erstellen
+#Register-ScheduledTask -TaskName $scriptjobname -Action $schedaction -Trigger $schedtrigger -RunLevel Highest -User $taskuser -Settings $schedsettings    # Neue Task erstellen
+
+Register-ScheduledJob -Name $scriptjobname -FilePath $scripttarget -ScheduledJobOption $schedoptions -Trigger $schedtrigger
+
+#$O = New-ScheduledJobOption -WakeToRun -StartIfIdle -MultipleInstancePolicy Queue
+#$T = New-JobTrigger -Weekly -At "9:00 PM" -DaysOfWeek Monday -WeeksInterval 2
+#$path = "\\Srv01\Scripts\UpdateVersion.ps1"
+
+
+
+
 
 
 

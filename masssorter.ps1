@@ -17,7 +17,7 @@ $txtfile5 = "txt5"  # Name der Datei5 ohne Endung
 
 $txtrichtigschick = "sauberetxtfile"    # Name der schicken, neuen Datei ohne Endung
 
-$dateipfad = "C:\dateien\zeugs"     # Dateipfad der TXT-Files
+$dateipfad = $PSScriptRoot     # Dateipfad der TXT-Files
 
 
 #--- Vorbereitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -35,12 +35,12 @@ $stringworkflow = [System.String]::Concat("   Ich fasse fuer dich die Files:", "
                                             "      ", $txtfile5, "`n", "    zu:", "`n",
                                             "      ", $txtrichtigschick , "`n", "   zusammen", "`n", "`n")
 
-$txtf1 = [System.String]::Concat(".\", $dateipfad, "\", $txtfile1, ".txt")
-$txtf2 = [System.String]::Concat(".\", $dateipfad, "\", $txtfile2, ".txt")
-$txtf3 = [System.String]::Concat(".\", $dateipfad, "\", $txtfile3, ".txt")
-$txtf4 = [System.String]::Concat(".\", $dateipfad, "\", $txtfile4, ".txt")
-$txtf5 = [System.String]::Concat(".\", $dateipfad, "\", $txtfile5, ".txt")
-$txtschick = [System.String]::Concat(".\", $dateipfad, "\", $txtrichtigschick , ".txt")
+$txtf1 = [System.String]::Concat($dateipfad, "\", $txtfile1, ".txt")
+$txtf2 = [System.String]::Concat($dateipfad, "\", $txtfile2, ".txt")
+$txtf3 = [System.String]::Concat( $dateipfad, "\", $txtfile3, ".txt")
+$txtf4 = [System.String]::Concat($dateipfad, "\", $txtfile4, ".txt")
+$txtf5 = [System.String]::Concat($dateipfad, "\", $txtfile5, ".txt")
+$txtschick = [System.String]::Concat($dateipfad, "\", $txtrichtigschick , ".txt")
 
 
 #--- Verarbeitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -51,14 +51,20 @@ Write-Host $stringintro
 Write-Host $stringworkflow
 Start-Sleep -Seconds 4
 
-Get-Content -Path $txtf1
-Get-Content -Path $txtf2
-Get-Content -Path $txtf3
-Get-Content -Path $txtf4
-Get-Content -Path $txtf5
+$txtcontent1 = Get-Content -Path $txtf1
+$txtcontent2 = Get-Content -Path $txtf2
+$txtcontent3 = Get-Content -Path $txtf3
+$txtcontent4 = Get-Content -Path $txtf4
+$txtcontent5 = Get-Content -Path $txtf5
 
-Add-Content -Path $txtfastschick
-Get-Content -Path $txtfastschick
+New-Item -Path $txtschick
+$txtcontent1 | Add-Content -Path $txtschick
+$txtcontent2 | Add-Content -Path $txtschick
+$txtcontent3 | Add-Content -Path $txtschick
+$txtcontent4 | Add-Content -Path $txtschick
+$txtcontent5 | Add-Content -Path $txtschick
+
+Get-Content -Path $txtschick
 
 Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta

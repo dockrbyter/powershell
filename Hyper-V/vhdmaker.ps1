@@ -19,12 +19,11 @@ $stringhost = [System.String]::Concat("`n", "[ ", $env:UserName, " @ ", $env:com
 ((Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\" -Name ReleaseID).ReleaseId), " ]   ", (Get-Date -Format "dd/MM/yyyy HH:mm:ss"), "`n", "[ ", $MyInvocation.MyCommand.Name, " ]", "`n","`n") 
 $stringhost = $stringhost.replace("{Caption=Microsoft"," ")
 $stringintro = [System.String]::Concat("  VHD: ", $vhdname,  "   ", $vhdsize, "GB    wird erstellt...")
-$stringfertig = [System.String]::Concat("  VHD: ", $vhdname, "   ", $vhdsize, "GB", "`n", "   Erstellt!")
 $vhdname = [System.String]::Concat($vhdname, ".vhdx")
 $vhdsize = [System.String]::Concat($vhdsize, "GB")
 $vhdpath = [System.String]::Concat($vhdpath, "\", $vhdname)
 $vhdtyp = [System.String]::Concat("-", $vhdtyp)
-$vhdtest = (test-path -Path "C:\Users\Public\Documents\Hyper-V\Virtual hard disks\vhd2.vhdx" -PathType Leaf)
+
 
 #--- Verarbeitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -49,19 +48,5 @@ Switch ($ReadHost)
    Default {$vhdtyp = "Fix"; Clear-Host; Write-Host $stringhost -ForegroundColor Magenta;  Write-Host $stringintro; Start-Sleep -Seconds 2;
    New-VHD -Path $vhdpath -Fixed -SizeBytes (Invoke-Expression $vhdsize)} 
  } 
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-if($vhdtest -eq $True){
-Write-Host $stringhost -ForegroundColor Magenta
-Write-Host $stringfertig
-Start-Sleep -Seconds 2
-}
-else{
-    Write-Host $stringhost -ForegroundColor Magenta
-    Write-Host "   Vorgang nicht erfolgreich :("
-    Start-Sleep -Seconds 3
-}
-
-
 
 

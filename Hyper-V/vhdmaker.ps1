@@ -8,10 +8,9 @@ https://github.com/thelamescriptkiddiemax/powershell/Hyper-V
 #>
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-$vhdname = "vhd1"       # VHD-Name
+$vhdname = "vhd2"       # VHD-Name
 $vhdsize = "30"         # VHD Groesse in GB
-$vhdpath = "$env:PUBLIC\Documents"
-$vhdtyp = "Fixed"       # Dynamic  / Fixed
+$vhdpath = "$env:PUBLIC\Documents\Hyper-V\Virtual Hard Disks\"      # Speicherort VHD - Standard: $env:PUBLIC\Documents\Hyper-V\Virtual Hard Disks\
 
 
 #--- Vorbereitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -19,34 +18,50 @@ $vhdtyp = "Fixed"       # Dynamic  / Fixed
 $stringhost = [System.String]::Concat("`n", "[ ", $env:UserName, " @ ", $env:computername, " @ ", ((Get-WmiObject Win32_ComputerSystem).Domain), " ", (Get-CimInstance Win32_OperatingSystem | Select-Object Caption), ": ", 
 ((Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\" -Name ReleaseID).ReleaseId), " ]   ", (Get-Date -Format "dd/MM/yyyy HH:mm:ss"), "`n", "[ ", $MyInvocation.MyCommand.Name, " ]", "`n","`n") 
 $stringhost = $stringhost.replace("{Caption=Microsoft"," ")
-$stringintro = [System.String]::Concat("   Erstelle VHD: ", $vhdname)
-$stringfertig = [System.String]::Concat("  VHD: ", $vhdname, "   ", $vhdsize, "GB   Typ: ",$vhdtyp, "`n", "   Erstellt!")
-
+$stringintro = [System.String]::Concat("  VHD: ", $vhdname,  "   ", $vhdsize, "GB    wird erstellt...")
+$stringfertig = [System.String]::Concat("  VHD: ", $vhdname, "   ", $vhdsize, "GB", "`n", "   Erstellt!")
 $vhdname = [System.String]::Concat($vhdname, ".vhdx")
 $vhdsize = [System.String]::Concat($vhdsize, "GB")
 $vhdpath = [System.String]::Concat($vhdpath, "\", $vhdname)
-
+$vhdtyp = [System.String]::Concat("-", $vhdtyp)
+$vhdtest = (test-path -Path "C:\Users\Public\Documents\Hyper-V\Virtual hard disks\vhd2.vhdx" -PathType Leaf)
 
 #--- Verarbeitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
-Write-Host "   Zeit fuer VHDs!"
-Start-Sleep -Seconds 2
-
-Clear-Host
-Write-Host $stringhost -ForegroundColor Magenta
-Write-Host $stringintro
-Start-Sleep -Seconds 2
-
-New-VHD -Path $vhdpath -$vhdtyp -SizeBytes $vhdsize
-
-Clear-Host
-Write-Host $stringhost -ForegroundColor Magenta
-Write-Host $stringfertig
+Write-Host "   Es ist Zeit fuer VHDs!"
 Start-Sleep -Seconds 2
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Clear-Host
+Write-Host $stringhost -ForegroundColor Magenta
+Write-Host "   (F)ixe-, oder (D)ynamische-Groesse? Default - Fix"
+$Readhost = Read-Host " ( F / D ) "
+Switch ($ReadHost) 
+ {
+   F {$vhdtyp = "Fix"; Clear-Host; Write-Host $stringhost -ForegroundColor Magenta;  Write-Host $stringintro; Start-Sleep -Seconds 2;
+    New-VHD -Path $vhdpath -Fixed -SizeBytes (Invoke-Expression $vhdsize)} 
+
+   D {$vhdtyp = "Dynamisch"; Clear-Host; Write-Host $stringhost -ForegroundColor Magenta;  Write-Host $stringintro; Start-Sleep -Seconds 2;
+   New-VHD -Path $vhdpath -Dynamic -SizeBytes (Invoke-Expression $vhdsize)}
+
+   Default {$vhdtyp = "Fix"; Clear-Host; Write-Host $stringhost -ForegroundColor Magenta;  Write-Host $stringintro; Start-Sleep -Seconds 2;
+   New-VHD -Path $vhdpath -Fixed -SizeBytes (Invoke-Expression $vhdsize)} 
+ } 
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+if($vhdtest -eq $True){
+Write-Host $stringhost -ForegroundColor Magenta
+Write-Host $stringfertig
+Start-Sleep -Seconds 2
+}
+else{
+    Write-Host $stringhost -ForegroundColor Magenta
+    Write-Host "   Vorgang nicht erfolgreich :("
+    Start-Sleep -Seconds 3
+}
+
 
 
 

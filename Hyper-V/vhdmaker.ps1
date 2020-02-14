@@ -8,9 +8,10 @@ https://github.com/thelamescriptkiddiemax/powershell/Hyper-V
 #>
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-$vhdname = "vhd1"
-$vhdsize = "30"
-$vhdpath = 
+$vhdname = "vhd1"       # VHD-Name
+$vhdsize = "30"         # VHD Groesse in GB
+$vhdpath = "$env:PUBLIC\Documents"
+$vhdtyp = "Fixed"       # Dynamic  / Fixed
 
 
 #--- Vorbereitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -18,19 +19,32 @@ $vhdpath =
 $stringhost = [System.String]::Concat("`n", "[ ", $env:UserName, " @ ", $env:computername, " @ ", ((Get-WmiObject Win32_ComputerSystem).Domain), " ", (Get-CimInstance Win32_OperatingSystem | Select-Object Caption), ": ", 
 ((Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\" -Name ReleaseID).ReleaseId), " ]   ", (Get-Date -Format "dd/MM/yyyy HH:mm:ss"), "`n", "[ ", $MyInvocation.MyCommand.Name, " ]", "`n","`n") 
 $stringhost = $stringhost.replace("{Caption=Microsoft"," ")
+$stringintro = [System.String]::Concat("   Erstelle VHD: ", $vhdname)
+$stringfertig = [System.String]::Concat("  VHD: ", $vhdname, "   ", $vhdsize, "GB   Typ: ",$vhdtyp, "`n", "   Erstellt!")
 
 $vhdname = [System.String]::Concat($vhdname, ".vhdx")
 $vhdsize = [System.String]::Concat($vhdsize, "GB")
 $vhdpath = [System.String]::Concat($vhdpath, "\", $vhdname)
 
+
 #--- Verarbeitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
-Write-Host " "
-Start-Sleep -Seconds 1
+Write-Host "   Zeit fuer VHDs!"
+Start-Sleep -Seconds 2
 
-pause
+Clear-Host
+Write-Host $stringhost -ForegroundColor Magenta
+Write-Host $stringintro
+Start-Sleep -Seconds 2
+
+New-VHD -Path $vhdpath -$vhdtyp -SizeBytes $vhdsize
+
+Clear-Host
+Write-Host $stringhost -ForegroundColor Magenta
+Write-Host $stringfertig
+Start-Sleep -Seconds 2
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

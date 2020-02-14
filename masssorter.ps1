@@ -34,7 +34,7 @@ $stringhost = $stringhost.replace("{Caption=Microsoft"," ")
 $stringintro = [System.String]::Concat("   Hallo ", $env:UserName, "! Tackern wir ein paar TXT-Files aneinander :D :D :D")
 $stringfertig = [System.String]::Concat("   ...Erledigt", "`n", "`n", "    ", $txtrichtigschick, " ist jetzt richtig schick!", "`n")
 $stringworkflow = [System.String]::Concat("   Ich fasse fuer dich die Files:", "`n",
-$txtfile1, " ", $txtfile2, " ",  $txtfile3, " ", $txtfile4, " ", $txtfile5, " ", $txtfile6, " ", $txtfile7, " ", $txtfile8, " ", $txtfile9, " ", $txtfile10, " ", $txtfile11, " ",
+$txtfile1, " ", $txtfile2, " ",  $txtfile3, " ", $txtfile4, " ", "`n", $txtfile5, " ", $txtfile6, " ", $txtfile7, " ", $txtfile8, " ", "`n", $txtfile9, " ", $txtfile10, " ", $txtfile11, " ",
 "`n", "    zu:", "`n", "      ", $txtrichtigschick , "`n", "   zusammen", "`n", "`n")
 
 $txtf1 = [System.String]::Concat($dateipfad, "\", $txtfile1, ".txt")

@@ -12,6 +12,7 @@ https://github.com/thelamescriptkiddiemax/powershell/Hyper-V
 $vmpath = "$env:PUBLIC\Documents\Hyper-V\Virtual Machines"          # Speicherort VM
 $vhdpath = "$env:PUBLIC\Documents\Hyper-V\Virtual Hard Disks"       # Speicherort VHD
 $isopath = "$env:PUBLIC\Documents\Hyper-V\ISOs"                     # Speicherort Installations-ISOs
+$switchtyp = "Internal"                                             # Switch-Typ: Internal / Private - Nur gillt nur fuer internen Vswitch
 
 
 #--- Vorbereitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -20,7 +21,7 @@ $stringhost = [System.String]::Concat("`n", "[ ", $env:UserName, " @ ", $env:com
 ((Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\" -Name ReleaseID).ReleaseId), " ]   ", (Get-Date -Format "dd/MM/yyyy HH:mm:ss"), "`n", "[ ", $MyInvocation.MyCommand.Name, " ]", "`n","`n") 
 $stringhost = $stringhost.replace("{Caption=Microsoft"," ")
 
-$vhdpath = [System.String]::Concat($vmpath, "\")
+$vmpath = [System.String]::Concat($vmpath, "\")
 $vhdpath = [System.String]::Concat($vhdpath, "\", $vhdname, ".vhdx")
 $isopath = [System.String]::Concat($isopath, "\", $isoname, ".iso")
 
@@ -35,7 +36,7 @@ function Show-Menu
     Clear-Host
     Write-Host $stringhost -ForegroundColor Magenta
      
-	Write-Host " . . .  . . . . . . . . .  $Title  . . . . . . . . .   . . . " -ForegroundColor Cyan
+	Write-Host " . . .  . . . . . . . . .  $Title  . . . . . . . . .   . . . `n" -ForegroundColor Cyan
     Write-Host "  1 > V-Switch erstellen"
     Write-Host "  2 > VHDs erstellen"
     Write-Host "  3 > VMs montieren `n"
@@ -45,26 +46,25 @@ function Show-Menu
     Write-Host "------------------------------------------------------------------------------------`n" -ForegroundColor Cyan
     Write-Host "  6 > Hyper-V-Manager oeffnen"
     Write-Host "  7 > Hyper-V installieren `n"
-    Write-Host "  q > Quit"
+    Write-Host "------------------------------------------------------------------------------------`n" -ForegroundColor Cyan
+    Write-Host "  q > Quit `n `n"
     
 }
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function vmmaker {
     
     $vmRAM = [System.String]::Concat($vmRAMraw, "GB")
-    $vmVHD = [System.String]::Concat($vhdpath, "\", $vhdname, ".vhdx")
     $stringVMerstellt = [System.String]::Concat("   VM ", $vmname, " erstellt!", "`n", "   Snapshots bitte manuell konfigurieren!")
 
     Write-Host $stringhost -ForegroundColor Magenta
-    Read-Host "  VM-Name?   BSP: Thrall03" $vmname
-    Read-Host "  Wie viele Cores?   BSP: 4" $vmcores
-    Read-Host "  VM RAM in GB?   BSP: 16" $vmRAMraw
-    Read-Host "  VHD-Pfad?   BSP: C:\vms\vhd" $vhdpath
-    Read-Host "  VHD-Name?   BSP: SVR19HD   (NUR VHDX - VHD nicht)" $vmVHDname
-    Read-Host "  vSwitch-Name?   BSP: extVswitch" $switchName
-    Read-Host "  ISO-Name?   BSP: manjaro-xfce-18.1.5-191229-linux54" $vmname
+    $vmname = Read-Host "  VM-Name?   BSP: Thrall03"
+    $vmcores = Read-Host "  Wie viele Cores?   BSP: 4"
+    $vmRAMraw = Read-Host "  VM RAM in GB?   BSP: 16"
+    $vhdname = Read-Host "  VHD-Name?   BSP: SVR19HD   (NUR VHDX - VHD nicht)"
+    $switchName = Read-Host "  vSwitch-Name?   BSP: extVswitch" 
+    $isoname = Read-Host "  ISO-Name?   BSP: manjaro-xfce-18.1.5-191229-linux54"
 
-    Write-Host "   ISO (E)inbinden, oder (S)kippen? Default - Einbinden"
+    Write-Host "   ISO (E)inbinden, oder (S)kippen? Default - Einbinden `n"
     $Readhost = Read-Host " ( E / S ) "
     Switch ($ReadHost) 
     {
@@ -80,7 +80,7 @@ function vmmaker {
     Write-Host "   Erstelle VM..."
     Start-Sleep -Seconds 1.5
 
-    New-VM -Name $vmname -Path $vmpath -MemoryStartupBytes $vmRAM -VHDPath $vmVHD -SwitchName $switchName -Generation 2
+    New-VM -Name $vmname -Path $vmpath -MemoryStartupBytes $vmRAM -VHDPath $vhdpath -SwitchName $switchName -Generation 2
     Set-VMProcessor -VMName $vmname -Count $vmcores
     Set-VM -Name $vmname -AutomaticCheckpointsEnabled $false
     $vmdrive
@@ -98,10 +98,10 @@ function vhdmaker {
 
     Write-Host $stringhost -ForegroundColor Magenta
     Write-Host "Zielverzeichnis in Script-Variablen konfigurieren!" -ForegroundColor DarkRed
-    Read-Host "   VHD-Name?" $vhdname
-    Read-Host "   VHD-Groesse?" $vhdsize
+    $vhdname = Read-Host "   VHD-Name?"
+    $vhdsize = Read-Host "   VHD-Groesse?"
     
-    Write-Host "   (F)ixe-, oder (D)ynamische-Groesse? Default - Fix"
+    Write-Host "   (F)ixe-, oder (D)ynamische-Groesse? Default - Fix `n"
     $Readhost = Read-Host " ( F / D ) "
     Switch ($ReadHost) 
     {
@@ -121,7 +121,7 @@ function vhdmaker {
 function menu2 {
     Clear-Host
     Write-Host $stringhost -ForegroundColor Magenta
-    Write-Host "   (E)xterner-, oder (I)nterner-vSwitch? Default - Extern"
+    Write-Host "   (E)xterner-, oder (I)nterner-vSwitch? Default - Extern `n"
     $Readhost = Read-Host " ( E / I ) "
     Switch ($ReadHost) 
         {
@@ -135,35 +135,18 @@ function menu2 {
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function intVswitchmaker {
     
-    $adapter = Get-NetAdapter
-    $switchnic = $selection
-
+    Clear-Host
     Write-Host $stringhost -ForegroundColor Magenta
-    Write-Host $stringintswitch
+    Write-Host "   Interner Vswitch"
+    $switchName = Read-Host "   vSwitch Name?"
+    $switchnotes = Read-Host "   vSwitch Beschreibung?"
+    Clear-Host
 
-    $menu = @{}
-    for ($i=1 ; $i -le $adapter.count ; $i++) 
-    { 
-    
-        Write-Host "$i. $($adapter[$i-1].Name))"
-        $menu.Add($i,($adapter[$i-1].Name)) 
- 
-    }
-
-    [int]$ans = Read-Host "Welche NIC soll der V-Switch nutzen?"
-    $selection = $menu.Item($ans)
+    New-VMSwitch -Name $switchName -Notes $switchnotes -SwitchType $switchtyp
 
     Clear-Host
     Write-Host $stringhost -ForegroundColor Magenta
-    Read-Host "   vSwitch Name?" $switchName
-    Read-Host "   vSwitch Beschreibung?" $switchnotes
-    Clear-Host
-
-    New-VMSwitch -Name $switchName -NetAdapterName $switchnic -AllowManagementOS $true -Notes $switchnotes -SwitchType $switchtyp
-
-    Clear-Host
-    Write-Host $stringhost -ForegroundColor Magenta
-    Write-Host "   vSwitch erstellt!"
+    Write-Host "   Interner vSwitch erstellt!"
     Start-Sleep -Seconds 1.5
     Clear-Host
 
@@ -171,12 +154,10 @@ function intVswitchmaker {
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function extVswitchmaker {
     
-    $switchdesc = "External Hyper-V Switch"
     $adapter = Get-NetAdapter
-    $switchnic = $selection
 
     Write-Host $stringhost -ForegroundColor Magenta
-    Write-Host "   Interner Vswitch"
+    Write-Host "   Externer Vswitch"
 
     $menu = @{}
     for ($i=1 ; $i -le $adapter.count ; $i++) 
@@ -190,17 +171,19 @@ function extVswitchmaker {
     [int]$ans = Read-Host "Welche NIC soll der V-Switch nutzen?"
     $selection = $menu.Item($ans)
 
-    Clear-Host
-    Write-Host $stringhost -ForegroundColor Magenta
-    Read-Host "   vSwitch Name?" $switchName
-    Read-Host "   vSwitch Beschreibung?" $switchnotes
-    Clear-Host
-
-    New-VMSwitch -Name $switchName -NetAdapterName $switchnic -AllowManagementOS $true -Notes $switchnotes -NetAdapterInterfaceDescription $switchdesc
+    $switchnic = $selection
 
     Clear-Host
     Write-Host $stringhost -ForegroundColor Magenta
-    Write-Host "   vSwitch erstellt!"
+    $switchName = Read-Host "   vSwitch Name?"
+    $switchnotes = Read-Host "   vSwitch Beschreibung?"
+    Clear-Host
+
+    New-VMSwitch -Name $switchName -NetAdapterName $switchnic -AllowManagementOS $true -Notes $switchnotes
+
+    Clear-Host
+    Write-Host $stringhost -ForegroundColor Magenta
+    Write-Host "   Externer vSwitch erstellt!"
     Start-Sleep -Seconds 1.5
     Clear-Host
 
@@ -218,9 +201,9 @@ function thrallslap {
     Write-Host $stringhost -ForegroundColor Magenta
     Write-Host $stringvmslocal1
     Write-Host $stringvmslocal2-ForegroundColor Yellow
-    Read-Host "   Wer soll dienen?" $vmstartname
+    $vmstartname = Read-Host "   Wer soll dienen?"
     Write-Host $vmstartname -ForegroundColor Green
-    Write-Host "   VM (S)tarten, oder (V)erbinden? Default - Starten und verbinden"
+    Write-Host "   VM (S)tarten, oder (V)erbinden? Default - Starten und verbinden `n"
     $Readhost = Read-Host " ( S / V ) "
     Switch ($ReadHost) 
         {
@@ -265,8 +248,8 @@ function hypervsetup {
 Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host "   ThrallConstructor `n" -ForegroundColor Yellow
-Write-Host "  Pfade in Scriptvariablen anpassen!" -ForegroundColor DarkRed
-Start-Sleep -Seconds 2
+Write-Host "  Pfade in Scriptvariablen anpassen!" -ForegroundColor DarkRed -BackgroundColor White
+Start-Sleep -Seconds 3
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

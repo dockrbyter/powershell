@@ -320,7 +320,8 @@ function hypervcpufix {
 Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host "  ThrallConstructor `n" -ForegroundColor Yellow
-Write-Host "  Pfade in Scriptvariablen anpassen!" -ForegroundColor DarkRed -BackgroundColor White
+Write-Host "  Pfade in Scriptvariablen anpassen! `n `n" -ForegroundColor DarkRed -BackgroundColor White
+Write-Host "  Benoetigt AdminPower!" -ForegroundColor DarkRed -BackgroundColor White
 Start-Sleep -Seconds 3
 
 

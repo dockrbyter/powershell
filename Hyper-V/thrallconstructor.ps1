@@ -7,6 +7,8 @@ thrallconstructor.ps1
     Erstellt VMs, VHDs und vSwitche. Kann ausserdem Hyper-V installieren und
     das Problem mit dem Hypervisorschedulertype beheben.
     Dierekte Verbindung zur VM aus dem Menu moeglich.
+
+    Benoetigt AdminPower
     
 https://github.com/thelamescriptkiddiemax/powershell/Hyper-V
 #>
@@ -39,7 +41,7 @@ function Show-Menu
     Clear-Host
     Write-Host $stringhost -ForegroundColor Magenta
     
-    
+
 
     Write-Host " "
 	Write-Host " . . .  . . . . . . . . .  $Title  . . . . . . . . .   . . . `n" -ForegroundColor Cyan
@@ -209,8 +211,8 @@ function extVswitchmaker {
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function thrallslap {
     
-    $vmsalle = Get-VM
-    $vmslaufend = Get-VM | Where-Object {$_.State -eq 'Running'}
+    $vmsalle = Get-VM | Select-Object VMName
+    $vmslaufend = Get-VM | Select-Object VMName | Where-Object {$_.State -eq 'Running'}
 
     $stringvmslocal1 = [System.String]::Concat("    Lokale VMs:", "`n", "     ", $vmsalle, "`n", "    VMs online:", "`n")
     $stringvmslocal2 = [System.String]::Concat("     ", $vmslaufend, "`n")

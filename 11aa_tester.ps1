@@ -6,12 +6,3 @@ tester.ps1
 
 https://github.com/thelamescriptkiddiemax/powershell
 #>
-
-
-
-
-
-#####
-
-
-

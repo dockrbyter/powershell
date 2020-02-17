@@ -15,9 +15,9 @@ $vhdpath = "$env:PUBLIC\Documents\Hyper-V\Virtual Hard Disks\"      # Speicheror
 
 #--- Vorbereitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-$stringhost = [System.String]::Concat("`n", "[ ", $env:UserName, " @ ", $env:computername, " @ ", ((Get-WmiObject Win32_ComputerSystem).Domain), " ", (Get-CimInstance Win32_OperatingSystem | Select-Object Caption), ": ", 
+$stringhost = [System.String]::Concat("[ ", $env:UserName, " @ ", $env:computername, " @ ", ((Get-WmiObject Win32_ComputerSystem).Domain), " ", (Get-CimInstance Win32_OperatingSystem | Select-Object Caption), ": ", 
 ((Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\" -Name ReleaseID).ReleaseId), " ]   ", (Get-Date -Format "dd/MM/yyyy HH:mm:ss"), "`n", "[ ", $MyInvocation.MyCommand.Name, " ]", "`n","`n") 
-$stringhost = $stringhost.replace("{Caption=Microsoft"," ")
+$stringhost = $stringhost.replace("{Caption=Microsoft"," ").replace("}", " ")
 $stringintro = [System.String]::Concat("  VHD: ", $vhdname,  "   ", $vhdsize, "GB    wird erstellt...")
 $vhdname = [System.String]::Concat($vhdname, ".vhdx")
 $vhdsize = [System.String]::Concat($vhdsize, "GB")

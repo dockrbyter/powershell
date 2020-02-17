@@ -28,9 +28,9 @@ $dateipfad = $PSScriptRoot     # Dateipfad der TXT-Files
 
 #--- Vorbereitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-$stringhost = [System.String]::Concat("`n", "[ ", $env:UserName, " @ ", $env:computername, " @ ", ((Get-WmiObject Win32_ComputerSystem).Domain), " ", (Get-CimInstance Win32_OperatingSystem | Select-Object Caption), ": ", 
+$stringhost = [System.String]::Concat("[ ", $env:UserName, " @ ", $env:computername, " @ ", ((Get-WmiObject Win32_ComputerSystem).Domain), " ", (Get-CimInstance Win32_OperatingSystem | Select-Object Caption), ": ", 
 ((Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\" -Name ReleaseID).ReleaseId), " ]   ", (Get-Date -Format "dd/MM/yyyy HH:mm:ss"), "`n", "[ ", $MyInvocation.MyCommand.Name, " ]", "`n","`n") 
-$stringhost = $stringhost.replace("{Caption=Microsoft"," ")
+$stringhost = $stringhost.replace("{Caption=Microsoft"," ").replace("}", " ")
 $stringintro = [System.String]::Concat("   Hallo ", $env:UserName, "! Tackern wir ein paar TXT-Files aneinander :D :D :D")
 $stringfertig = [System.String]::Concat("   ...Erledigt", "`n", "`n", "    ", $txtrichtigschick, " ist jetzt richtig schick!", "`n")
 $stringworkflow = [System.String]::Concat("   Ich fasse fuer dich die Files:", "`n",

@@ -14,9 +14,9 @@ $switchtyp = "Internal"     # Switch-Typ: Internal / Private
 
 #--- Vorbereitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-$stringhost = [System.String]::Concat("`n", "[ ", $env:UserName, " @ ", $env:computername, " @ ", ((Get-WmiObject Win32_ComputerSystem).Domain), " ", (Get-CimInstance Win32_OperatingSystem | Select-Object Caption), ": ", 
+$stringhost = [System.String]::Concat("[ ", $env:UserName, " @ ", $env:computername, " @ ", ((Get-WmiObject Win32_ComputerSystem).Domain), " ", (Get-CimInstance Win32_OperatingSystem | Select-Object Caption), ": ", 
 ((Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\" -Name ReleaseID).ReleaseId), " ]   ", (Get-Date -Format "dd/MM/yyyy HH:mm:ss"), "`n", "[ ", $MyInvocation.MyCommand.Name, " ]", "`n","`n") 
-$stringhost = $stringhost.replace("{Caption=Microsoft"," ")
+$stringhost = $stringhost.replace("{Caption=Microsoft"," ").replace("}", " ")
 $stringintswitch = [System.String]::Concat("   ", $switchtyp, " vSwitch", "`n", "   (Fuer privaten vSwitch Script-Variable switchtyp editieren)")
 
 Import-Module Hyper-V

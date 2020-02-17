@@ -15,9 +15,9 @@ $switchtyp = "Internal"     # Switch-Typ: Internal / Private
 
 #--- Vorbereitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-$stringhost = [System.String]::Concat("`n", "[ ", $env:UserName, " @ ", $env:computername, " @ ", ((Get-WmiObject Win32_ComputerSystem).Domain), " ", (Get-CimInstance Win32_OperatingSystem | Select-Object Caption), ": ", 
+$stringhost = [System.String]::Concat("[ ", $env:UserName, " @ ", $env:computername, " @ ", ((Get-WmiObject Win32_ComputerSystem).Domain), " ", (Get-CimInstance Win32_OperatingSystem | Select-Object Caption), ": ", 
 ((Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\" -Name ReleaseID).ReleaseId), " ]   ", (Get-Date -Format "dd/MM/yyyy HH:mm:ss"), "`n", "[ ", $MyInvocation.MyCommand.Name, " ]", "`n","`n") 
-$stringhost = $stringhost.replace("{Caption=Microsoft"," ")
+$stringhost = $stringhost.replace("{Caption=Microsoft"," ").replace("}", " ")
 $stringswitch1 = [System.String]::Concat("   Erstellen wir einen ", $switchtyp, " V-Switch, nennen wir ihn doch: ", $switchName, "`n", "`n")
 $stringswitch2 = [System.String]::Concat("   Ok, dein - ", $switchName, " - ist fertig!", "`n", "   Nochmal: Das ist ein ", $switchtyp, " V-Switch!", "`n", "`n")
 

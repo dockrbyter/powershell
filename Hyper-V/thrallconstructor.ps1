@@ -16,10 +16,10 @@ https://github.com/thelamescriptkiddiemax/powershell/Hyper-V
 
 $vmtyp = "2"                                                        # VM-Generation - 1 / 2
 $vmpath = "$env:PUBLIC\Documents\Hyper-V\Virtual Machines"          # Speicherort VM
-$vhdpath = "$env:PUBLIC\Documents\Hyper-V\Virtual Hard Disks"       # Speicherort VHD
-$isopath = "$env:PUBLIC\Documents\Hyper-V\ISOs"                     # Speicherort Installations-ISOs
+$vhdpath = "D:\VHDs"       # Speicherort VHD
+$isopath = "D:\ISOs"                     # Speicherort Installations-ISOs
 $switchtyp = "Internal"                                             # Switch-Typ: Internal / Private - Nur gillt nur fuer internen Vswitch
-$vmgastdienst = "Gastdienstschnittstelle"                           # Auf deutschem OS Gastdienstschnittstelle / Auf englischem OS Guest Service Interface
+$vmgastdienst = "Gastdienstschnittstelle"                           # Auf deutschem OS Gastdienstschnittstelle / Auf englischem OS: Guest Service Interface
 
 
 #--- Vorbereitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -29,6 +29,17 @@ $stringhost = [System.String]::Concat("[ ", $env:UserName, " @ ", $env:computern
 $stringhost = $stringhost.replace("{Caption=Microsoft"," ").replace("}", " ")
 
 Import-Module Hyper-V
+
+$vmsalleRAW = Get-VM | Select-Object VMName
+$onlinevmsRAW = Get-VM Get-VM | Where-Object { $_.State -eq 'Running' }
+
+$vms = [System.Collections.ArrayList]$vmsalleRAW
+$onlinevms = [System.Collections.ArrayList]$onlinevmsRAW 
+
+$vms = $vms -replace "@{VMName=", " "
+$vms = $vms -replace "}", " "
+$onlinevms = $onlinevms -replace "@{VMName=", " "
+$onlinevms = $onlinevms -replace "}", " "
 
 $Host.UI.RawUI.BackgroundColor = 'Gray'
 $Host.UI.RawUI.ForegroundColor = 'Black'
@@ -41,9 +52,12 @@ function Show-Menu
     Clear-Host
     Write-Host $stringhost -ForegroundColor Magenta
     
-
-
-    Write-Host " "
+    Write-Host "------------------------------------------------------------------------------------" -ForegroundColor Cyan
+    Write-Host "   VMs Lokal:" -ForegroundColor Blue
+    Write-Host $vms -ForegroundColor Yellow
+    Write-Host "   VMs online:" -ForegroundColor Blue
+    Write-Host $onlinevmsRAW -ForegroundColor Green
+    Write-Host "------------------------------------------------------------------------------------`n" -ForegroundColor Cyan
 	Write-Host " . . .  . . . . . . . . .  $Title  . . . . . . . . .   . . . `n" -ForegroundColor Cyan
     Write-Host "  1 > V-Switch erstellen"
     Write-Host "  2 > VHD erstellen"
@@ -211,16 +225,14 @@ function extVswitchmaker {
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function thrallslap {
     
-    $vmsalle = Get-VM | Select-Object VMName
-    $vmslaufend = Get-VM | Select-Object VMName | Where-Object {$_.State -eq 'Running'}
-
-    $stringvmslocal1 = [System.String]::Concat("    Lokale VMs:", "`n", "     ", $vmsalle, "`n", "    VMs online:", "`n")
-    $stringvmslocal2 = [System.String]::Concat("     ", $vmslaufend, "`n")
-
     Clear-Host
     Write-Host $stringhost -ForegroundColor Magenta
-    Write-Host $stringvmslocal1
-    Write-Host $stringvmslocal2-ForegroundColor Yellow
+    Write-Host "------------------------------------------------------------------------------------" -ForegroundColor Cyan
+    Write-Host "   VMs Lokal:" -ForegroundColor Blue
+    Write-Host $vms -ForegroundColor Yellow
+    Write-Host "   VMs online:" -ForegroundColor Blue
+    Write-Host $onlinevms -ForegroundColor Green
+    Write-Host "------------------------------------------------------------------------------------`n" -ForegroundColor Cyan
     $vmstartname = Read-Host "   Wer soll dienen?"
     Write-Host $vmstartname -ForegroundColor Green
     Write-Host "   VM (S)tarten, oder (V)erbinden? Default - Starten und verbinden `n"
@@ -234,20 +246,21 @@ function thrallslap {
             Default { Start-VM $vmstartname
                         & "C:\windows\System32\vmconnect.exe" localhost $vmstartname} 
         }
+
+    Start-Sleep -Seconds 3    
+    
 }
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function pssstart {
     
-    $vmsalle = Get-VM
-    $vmslaufend = Get-VM | Where-Object {$_.State -eq 'Running'}
-
-    $stringvmslocal1 = [System.String]::Concat("    Lokale VMs:", "`n", "     ", $vmsalle, "`n", "    VMs online:", "`n")
-    $stringvmslocal2 = [System.String]::Concat("     ", $vmslaufend, "`n")
-
     Clear-Host
     Write-Host $stringhost -ForegroundColor Magenta
-    Write-Host $stringvmslocal1
-    Write-Host $stringvmslocal2-ForegroundColor Yellow
+    Write-Host "------------------------------------------------------------------------------------" -ForegroundColor Cyan
+    Write-Host "   VMs Lokal:" -ForegroundColor Blue
+    Write-Host $vms -ForegroundColor Yellow
+    Write-Host "   VMs online:" -ForegroundColor Blue
+    Write-Host $onlinevms -ForegroundColor Green
+    Write-Host "------------------------------------------------------------------------------------`n" -ForegroundColor Cyan
     Read-Host "   Ziel-VM?" $vmpss
 
     Enter-PSSession -VMName $vmpss
@@ -272,6 +285,12 @@ function isodrivemaper ($isopath, $vmname) {
 
     Clear-Host
     Write-Host $stringhost -ForegroundColor Magenta
+    Write-Host "------------------------------------------------------------------------------------" -ForegroundColor Cyan
+    Write-Host "   VMs Lokal:" -ForegroundColor Blue
+    Write-Host $vms -ForegroundColor Yellow
+    Write-Host "   VMs online:" -ForegroundColor Blue
+    Write-Host $onlinevms -ForegroundColor Green
+    Write-Host "------------------------------------------------------------------------------------`n" -ForegroundColor Cyan
     Write-Host "   ISO (E)inbinden, oder (S)kippen? Default - Einbinden `n"
     $Readhost = Read-Host " ( E / S ) "
     Switch ($ReadHost) 

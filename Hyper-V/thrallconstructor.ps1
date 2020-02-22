@@ -273,7 +273,13 @@ function hypervsetup {
     Write-Host $stringhost -ForegroundColor Magenta
     Write-Host "   Installiere Hyper-V. Danach muss das System rebooten!"
 
-    Install-WindowsFeature -Name Hyper-V -IncludeManagementTools -Restart
+    Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+
+    Clear-Host
+    Write-Host $stringhost -ForegroundColor Magenta
+    Write-Host "   Reboot in 3 Sekunden"
+
+    Restart-Computer -Force
     
 }
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

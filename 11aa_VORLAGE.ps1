@@ -31,3 +31,5 @@ pause
 
 
 
+stop-process -Id $PID       # Shell schliessen
+

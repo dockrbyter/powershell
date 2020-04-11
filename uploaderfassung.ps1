@@ -9,8 +9,8 @@ https://github.com/thelamescriptkiddiemax/powershell
 #>
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-$quellverzeichnis = "D:\Upload"         # Verzeichnis der einzulesenden Dateien
-$zielverzeichnis = $quellverzeichnis    # Verzeichnis der XLSX
+$quellverzeichnis = "\\10.111.111.11\Repository\Bot_Share\Designs"         # Verzeichnis der einzulesenden Dateien
+$zielverzeichnis = "\\10.111.111.11\Repository\Bot_Share"    # Verzeichnis der XLSX
 
 $uploaddatei = "upload.xlsx"            # Dateiname XLSX
 $sheetname = "Upload Control"           # Sheet-Name

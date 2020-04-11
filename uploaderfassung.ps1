@@ -9,8 +9,8 @@ https://github.com/thelamescriptkiddiemax/powershell
 #>
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-$quellverzeichnis = "\\10.111.111.11\Repository\Bot_Share\Designs"         # Verzeichnis der einzulesenden Dateien
-$zielverzeichnis = "\\10.111.111.11\Repository\Bot_Share"    # Verzeichnis der XLSX
+$quellverzeichnis = "D:\Upload"         # Verzeichnis der einzulesenden Dateien
+$zielverzeichnis = $quellverzeichnis    # Verzeichnis der XLSX
 
 $uploaddatei = "upload.xlsx"            # Dateiname XLSX
 $sheetname = "Upload Control"           # Sheet-Name
@@ -76,7 +76,7 @@ $exheads = ($chead3, $chead4, $chead5, $chead6, $chead7, $chead8, $chead9, $chea
 $excelmodul = "ImportExcel"         # Zu importierendes PowerShell Modul
 
 #--- Module Check -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#Clear-Host
+Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host "   Checke Excel-Modul..."
 Start-Sleep -Seconds 2
@@ -84,7 +84,7 @@ Start-Sleep -Seconds 2
 # Check ob Modul installiert ist
 if (-not (Get-Module -ListAvailable -Name $excelmodul)) 
 {
-    #Clear-Host
+    Clear-Host
     Write-Host $stringhost -ForegroundColor Magenta
     Write-Host $stringmodulexcelinstall -ForegroundColor Cyan
     Start-Sleep -Seconds 3
@@ -94,7 +94,7 @@ if (-not (Get-Module -ListAvailable -Name $excelmodul))
     # Check ob Installation erfolgreich war
     if (-not (Get-Module -ListAvailable -Name $excelmodul)) 
     {
-        #Clear-Host
+        Clear-Host
         Write-Host $stringhost -ForegroundColor Magenta
         Write-Host "`n `n   Modulinstallation NICHT erfolgreich! Breche Vorgang ab. `n   Beende Script in 10 Sekunden... `n `n" -ForegroundColor DarkRed
         Start-Sleep -Seconds 10
@@ -117,16 +117,14 @@ If(!(test-path $dummypfad))
 
     New-Item $dummypfad
 
-    #Clear-Host
+    Clear-Host
     Write-Host $stringhost -ForegroundColor Magenta
     Write-Host $stringdummy
     Start-Sleep -Seconds 1.5
 
 }
 
-
-
-#Clear-Host
+Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host "   Suche nach alten Temp-Daten..."
 Start-Sleep -Seconds 1.5
@@ -137,7 +135,7 @@ If(test-path $zielverzeichnis\*.csv)
 
     Remove-Item $zielverzeichnis\*.csv
 
-    #Clear-Host
+    Clear-Host
     Write-Host $stringhost -ForegroundColor Magenta
     Write-Host "   Temp-CSV's entfernt!"
     Start-Sleep -Seconds 1.5
@@ -150,7 +148,7 @@ If(test-path $zielpfadXLSXtemp1)
 
     Remove-Item $zielpfadXLSXtemp1 
 
-    #Clear-Host
+    Clear-Host
     Write-Host $stringhost -ForegroundColor Magenta
     Write-Host "   Temp-CSV's entfernt!"
     Start-Sleep -Seconds 1.5
@@ -158,14 +156,14 @@ If(test-path $zielpfadXLSXtemp1)
 }
 
 
-#Clear-Host
+Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host "   Pruefe Control-XLSX..."
 Start-Sleep -Seconds 1.5
 
 If(!(test-path $zielpfad))
 {
-    #Clear-Host
+    Clear-Host
     Write-Host $stringhost -ForegroundColor Magenta
     Write-Host "   Datei NICHT vorhanden. Erstelle neu!"
     Start-Sleep -Seconds 2
@@ -210,7 +208,7 @@ If(!(test-path $zielpfad))
 
 #--- Datenerfassung -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#Clear-Host
+Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host "   Control-XLSX Ok. Beginne Datenerfassung..."
 Start-Sleep -Seconds 1.5
@@ -218,7 +216,7 @@ Start-Sleep -Seconds 1.5
 Get-ChildItem $quelle | Select-Object FullName | Export-Csv $zielpfadCSV1 -NoTypeInformation -Encoding UTF8 -force     # Volle Pfadangabe erfassen
 Get-ChildItem $quelle | Select-Object BaseName | Export-Csv $zielpfadCSV2 -NoTypeInformation -Encoding UTF8 -force     # Nur Dateiname ohne Endung erfassen
 
-#Clear-Host
+Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host $stringerfassung
 Start-Sleep -Seconds 1.5
@@ -232,7 +230,7 @@ Import-Csv -Path $zielpfadCSV2 | Export-Excel -Path $zielpfadXLSXtemp1 -WorkShee
 
 Remove-Item $zielverzeichnis\*.csv                                                                      # Temp-CSV's loeschen
 
-#Clear-Host
+Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host $stringertmpcsvrem
 Start-Sleep -Seconds 1.5
@@ -258,10 +256,14 @@ $worksheet.Cells.Item(1,1) = $chead1                        # Header 1 anpassen
 $worksheet.Cells.Item(1,2) = $chead2                        # Header 2 anpassen
 $worksheet.Name = $sheetname                                # Worksheet 1 unbenennen
 
+$range = $WorkSheet.Range("B1").EntireColumn                # Range auswaehlen (A)
+$range.Replace("_w", " ")                                   # _w entfernen
+$range.Replace("_B", " ")                                   # _b entfernen
+
 $workbook.Save()                                            # Workbook speichern
 $excel.Quit()                                               # Excel schliessen
 
-#Clear-Host
+Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host "   Vorbereitungen erledigt. Beginne Datenvergleich..."
 Start-Sleep -Seconds 1.5
@@ -273,12 +275,12 @@ Compare-WorkSheet -Referencefile $zielpfad -Differencefile $zielpfadXLSXtemp1 -E
 
 Remove-Item $zielpfadXLSXtemp1      # Temp-XLSX loeschen
 
-#Clear-Host
+Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host $stringxls
 Start-Sleep -Seconds 1.5
 
-#Clear-Host
+Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host "`n     VERARBEITUNG ABGESCHLOSSEN! `n `n" -ForegroundColor Yellow
 Start-Sleep -Seconds 3

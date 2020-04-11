@@ -28,6 +28,9 @@ $stringerfassung = [System.String]::Concat("   Erfassung erledigt!   ", "`n", " 
 $stringmodulexcelinstall = [System.String]::Concat("`n `n   PowerShell-Modul: ", $excelmodul, " nicht installiert!", "`n", "   Installiere Modul...", "`n")
 $stringertmpcsvrem = [System.String]::Concat("   Temp-CSV's - ", $tempCSVdatei1, " - ", $tempCSVdatei2, " - entfernt!   ", "`n", "`n", "       Temp-XLSX - ", $tempXLSXdatei, " - erstellt!", "`n")
 $stringxls = [System.String]::Concat("`n  ", $tempXLSXdatei," entfernt!", "`n")
+$stringdummy = [System.String]::Concat("`n  ", $dummypfad, " erstell!", "`n")
+
+$excelstringdummy = [System.String]::Concat($quellverzeichnis, "\dummy.", $dateityp)
 
 $chead1 = "Dateiname"               # Control-Sheet Head 1
 $chead2 = "TietelDE"                # Control-Sheet Head 2
@@ -40,9 +43,22 @@ $chead8 = "Check Redbubble"         # Control-Sheet Head 8
 $chead9 = "Check Teezily"           # Control-Sheet Head 9
 $chead10 = "Check Shirtee"          # Control-Sheet Head 10
 
+$cdummy1 = $excelstringdummy        # Control-Sheet Dummy-Eintrag 1
+$cdummy2 = "dummy"                  # Control-Sheet Dummy-Eintrag 2
+$cdummy3 = "Dummy"                  # Control-Sheet Dummy-Eintrag 3
+$cdummy4 = "El Dummy"               # Control-Sheet Dummy-Eintrag 4
+$cdummy5 = "DummySheet"             # Control-Sheet Dummy-Eintrag 5
+$cdummy6 = "Erledigt"               # Control-Sheet Dummy-Eintrag 6
+$cdummy7 = "Erledigt"               # Control-Sheet Dummy-Eintrag 7
+$cdummy8 = "Erledigt"               # Control-Sheet Dummy-Eintrag 8
+$cdummy9 = "Erledigty"              # Control-Sheet Dummy-Eintrag 9
+$cdummy10 = "Erledigt"              # Control-Sheet Dummy-Eintrag 10
+
 $tempCSVdatei1 = "temp1.csv"        # Temp CSV 1
 $tempCSVdatei2 = "temp2.csv"        # Temp CSV 2
 $tempXLSXdatei = "temp1.xlsx"       # Temp XLSX
+
+$dummyfile = "dummy.$dateityp"      # Dummy-File
 
 # Pfadzuweiseungen
 $quelle = "$quellverzeichnis\*.$dateityp"
@@ -50,6 +66,7 @@ $zielpfad = "$zielverzeichnis\$uploaddatei"
 $zielpfadCSV1 = "$zielverzeichnis\$tempCSVdatei1" 
 $zielpfadCSV2 = "$zielverzeichnis\$tempCSVdatei2"
 $zielpfadXLSXtemp1 = "$zielverzeichnis\$tempXLSXdatei"
+$dummypfad = "$quellverzeichnis\$dummyfile"
 
 $tempsheet1 = "Full"                # Temp-Sheet-Name 1
 $tempsheet2 = "Base"                # Temp-Sheet-Name 2
@@ -93,6 +110,21 @@ Import-Module -Name $excelmodul                             # Modul in Session i
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #--- Verarbeitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #--- Dateipruefung ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Test Dummy-File
+If(!(test-path $dummypfad))
+{
+
+    New-Item $dummypfad
+
+    #Clear-Host
+    Write-Host $stringhost -ForegroundColor Magenta
+    Write-Host $stringdummy
+    Start-Sleep -Seconds 1.5
+
+}
+
+
 
 #Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
@@ -156,6 +188,18 @@ If(!(test-path $zielpfad))
     $worksheet.Cells.Item(1,8) = $chead8
     $worksheet.Cells.Item(1,9) = $chead9
     $worksheet.Cells.Item(1,10) = $chead10
+
+    # Dummy-Eintraege
+    $worksheet.Cells.Item(2,1) = $cdummy1
+    $worksheet.Cells.Item(2,2) = $cdummy2
+    $worksheet.Cells.Item(2,3) = $cdummy3
+    $worksheet.Cells.Item(2,4) = $cdummy4
+    $worksheet.Cells.Item(2,5) = $cdummy5
+    $worksheet.Cells.Item(2,6) = $cdummy6
+    $worksheet.Cells.Item(2,7) = $cdummy7
+    $worksheet.Cells.Item(2,8) = $cdummy8
+    $worksheet.Cells.Item(2,9) = $cdummy9
+    $worksheet.Cells.Item(2,10) = $cdummy10   
 
     $workbook.SaveAs($zielpfad)                             # Workbook unter Zielpfad speichern
     $workbook.Close()                                       # Workbook schliessen
@@ -222,11 +266,10 @@ Write-Host $stringhost -ForegroundColor Magenta
 Write-Host "   Vorbereitungen erledigt. Beginne Datenvergleich..."
 Start-Sleep -Seconds 1.5
 
-pause
 
 #--- Neudaten mit Bestandsdaten abgleichen ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Compare-WorkSheet $zielpfad $zielpfadXLSXtemp1 -WorkSheetName $sheetname -ExcludeProperty $exheads | Export-Excel -Path $zielpfad -WorksheetName $sheetname -Append -AutoSize
+Compare-WorkSheet -Referencefile $zielpfad -Differencefile $zielpfadXLSXtemp1 -ExcludeProperty $exheads -WorkSheetName $sheetname | Export-Excel -Path $zielpfad -WorksheetName $sheetname -Append -AutoSize
 
 Remove-Item $zielpfadXLSXtemp1      # Temp-XLSX loeschen
 

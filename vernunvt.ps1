@@ -11,7 +11,11 @@ vernunvt.ps1
     - Vorhandenen User kopieren
     - Passwort aendern
     - Benutzer loeschen
-    
+
+    !! Benoetigt Domain-Administrator-Rechte!
+    !! Benoetigt RSAT! Sofern RSAT nicht installiert ist, wird es nachinstalliert.
+    !! RSAT-Deinstallation seitens des Scripts nicht vorgesehen! Bei Bedarf manuell RSAT deinstallieren.
+
 https://github.com/thelamescriptkiddiemax/powershell
 #>
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

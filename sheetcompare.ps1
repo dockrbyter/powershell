@@ -10,7 +10,7 @@ https://github.com/thelamescriptkiddiemax/powershell
 
 $dateityp = "xlsx"
 $xlsxpath = "G:\schulen_raw"
-$xlsxMaster = "2020_01_Liste-fuer-GIS-Karte_V06"
+$xlsxMaster = "liste2"
 $xlsxSlave = "schulnamen2.0"
 
 $sheetname = "Tabelle1"

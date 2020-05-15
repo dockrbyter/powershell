@@ -8,13 +8,13 @@ https://github.com/thelamescriptkiddiemax/powershell
 #>
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-$xlsxpath = $PSScriptRoot               # Pfad zu XLSX-Dateien                      EX C:\stuff\morestuff\
-$xlsxMaster = "liste2"                  # Dateiname XLSX Referenz-Datei             EX TolleListe
-$sheetnameMaster = "Tabelle1"           # Sheet-Namet der XLSX Referenz-Datei       EX Tabelle309
-$xlsxdiff = "namen2.0"                  # Dateiname XLSX Differenz-Datei            EX AuchGuteListe
-$sheetnamediff = "Tabelle1"             # Sheet-Namet der XLSX Differenz-Datei      EX Tabelle1
+$xlsxpath = $PSScriptRoot       # Pfad zu XLSX-Dateien                                      EX C:\stuff\morestuff\
+$xlsxMaster = "Master"          # Dateiname XLSX Referenz-Datei                             EX TolleListe
+$xlsxdiff = "Diff"              # Dateiname XLSX Differenz-Datei                            EX AuchGuteListe
+$sheetname = "Tabelle1"         # Sheet-Name - Muss bei beiden Dateien identisch sein       EX Tabelle309
+$vHeader = "Name"               # Vergleichs-Header                                         EX Name
 
-$scriptspeed = "2"                      # Dauer der Textausgabe in Sekunden         EX 3
+$scriptspeed = "2"              # Dauer der Textausgabe in Sekunden                         EX 3
 
 
 #--- Vorbereitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ function waittimer {
 #--- Module Check -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
-Write-Host "   Checke Excel-Modul..."
+Write-Host "`n   Checke Excel-Modul...`n"
 waittimer
 
 # Check ob Modul installiert ist
@@ -65,21 +65,30 @@ if (-not (Get-Module -ListAvailable -Name $excelmodul))
 
 }
 
+Clear-Host
+Write-Host $stringhost -ForegroundColor Magenta
+Write-Host "`n   Excel-Modul installiert! Lade Modul...`n"
+waittimer
+
 Import-Module -Name $excelmodul                             # Modul in Session importieren
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #--- Verarbeitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-#Clear-Host
+Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host $stringvergleichb
 waittimer
 
-Compare-WorkSheet -Referencefile $xlm -Differencefile $xls -WorkSheetName $sheetnameMaster | Export-Excel -Path $xlneu -WorksheetName $sheetnamediff -AutoSize
+Compare-WorkSheet $xlm $xls -WorkSheetName $sheetname -Key $vHeader | Export-Excel -Path $xlneu -AutoSize
 
-#Clear-Host
+Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host "`n   Vergleich abgeschlossen`n`n"
 waittimer
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+stop-process -Id $PID       # Shell schliessen
 

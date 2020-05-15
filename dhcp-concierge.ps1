@@ -8,7 +8,18 @@ https://github.com/thelamescriptkiddiemax/powershell
 #>
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-$dchpServerIp = ""          # IP-Adresse des DHCP-Servers
+$poolcsv = "C:\dhcp\pool.csv"
+$clientcsv = "C:\dhcp\clients.csv"
+
+$dchpServer = ""          # Hostname des DHCP-Servers
+
+$domainname = ""
+$domainsuffix = ""
+
+$ippref = "10.10"
+$iprangestart = "100"
+$iprangeend = "200"
+$sunbnetmask = "255.255.0.0"
 
 $raeume = @(
     "NBPHY*",
@@ -85,6 +96,8 @@ $stringhost = $stringhost.replace("{Caption=Microsoft"," ").replace("}", " ")
 $dhcpclients = Get-DHCPServerV4Scope -ComputerName $dchpServerIp | ForEach-Object { Get-DHCPServerv4Lease -ScopeID $_.ScopeID } | Select-Object HostName, ClientID
 
 
+$dhcpsrv = ("$dchpServer.$domainname.$domainsuffix")
+
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function waittimer {
     Start-Sleep -Seconds $scriptspeed
@@ -94,42 +107,43 @@ function waittimer {
 
 Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
-Write-Host " "
+Write-Host "   dhcp-concierge"
 waittimer
 
-pause
 
+# DHCP Pools erstellen
+Clear-Host
+Write-Host $stringhost -ForegroundColor Magenta
+Write-Host "   dhcp-concierge"
+Write-Host "`n   Beginne mit Raumerstellung...`n"
+waittimer
 
-foreach ($dhcpclient in $dhcpclients) {
+$raumcount = "0"
 
-    foreach($raeum in $raeume) {
-        $matchctr = ($dhcpclient.HostName -like $raeum | Get-DhcpServerv4Lease -IPAddress $dhcpclient.IP-Adresse)
+Import-Csv -Path $poolcsv -Header Raeume |  Foreach-Object{
+    $raumcount++
+    $stringcurrent = [System.String]::Concat("`n   DHCP-Pool ", $_.Raeume, "`n   Range von: ", $raumSTARTrange, " bis ", $raumENDrange, "`n")
     
-        if ($matchctr -eq "True") {
-            #Add-DhcpServerv4Reservation -IPAddress $leaseNEU
-        }
-    
-    
+    $raumSTARTrange = [System.String]::Concat("$ippref.$raumcount.$iprangestart")
+    $raumENDrange = [System.String]::Concat("$ippref.$raumcount.$iprangeend")
+    Add-DhcpServerv4Scope -ComputerName $dhcpsrv -Name $_.Raeume -StartRange $raumSTARTrange -EndRange $raumENDrange -SubnetMask $sunbnetmask -Description $_.Raeume
+
+    Clear-Host
+    Write-Host $stringhost -ForegroundColor Magenta
+    Write-Host "   dhcp-concierge"
+    Write-Host $stringcurrent
+    waittimer
     }
 
 
+# Clients den Pools zuweisen
+Clear-Host
+Write-Host $stringhost -ForegroundColor Magenta
+Write-Host "   dhcp-concierge"
+Write-Host "`n   Ich zeige nun unseren Gaesten ihre Zimmer...`n"
+waittimer
 
-}
-
-
-
-
-
-if($dhcpclient.HostName -like $raeume){
-
-}
-
-
-
-
-
-
-
+Import-Csv -Path $dhcpclients -Header Raeume  | Add-DhcpServerv4Scope -ComputerName $dhcpsrv -State Active
 
 
 

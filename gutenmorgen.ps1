@@ -26,26 +26,26 @@ $tempfiles = ("$quellDIR\*.tmp")
 
 #--- Verarbeitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#Clear-Host
+Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host $stringgutenmorgen
 Start-Sleep -Seconds 2
 
-#lear-Host
+Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host $stringbackup
 Start-Sleep -Seconds 2
 
 Copy-Item -Path $quelle -Destination $zielDIR | Out-Null
 
-#Clear-Host
+Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host "`n   Erledigt! Entferne TMP-Dateien...`n"
 Start-Sleep -Seconds 2
 
 Remove-Item $tempfiles | Out-Null
 
-#Clear-Host
+Clear-Host
 Write-Host $stringhost -ForegroundColor Magenta
 Write-Host "`n   Erledigt! Du bist jetzt etwas produktiver, gluecklicher und zurfriedener!`n"
 Start-Sleep -Seconds 2
@@ -53,5 +53,5 @@ Start-Sleep -Seconds 2
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#stop-process -Id $PID       # Shell schliessen
+Stop-Process -Id $PID       # Shell schliessen
 

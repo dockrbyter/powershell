@@ -19,7 +19,7 @@ $sheetname = ""                             # Worksheetname der XLSX-Datei      
 $quellordner = ""                           # Ordner in dem sich die CSV-Dateien befinden                                       EX  CSVraw
 $zielordner = ""                            # Ordner in dem XLSX-Dateien gespeichert werden                                     EX  XLSX
 
-$scriptspeed = "2"                          # Darstellungsdauer der Textausgaben in Sekunden            EX  2
+$scriptspeed = "2"                          # Darstellungsdauer der Textausgaben in Sekunden                                    EX  2
 
 #--- Vorbereitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

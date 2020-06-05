@@ -114,7 +114,7 @@ if (!$ihead1) {
     Write-Host "   Vergleiche inklusive ALLER Header"
     waittimer
 
-    Compare-WorkSheet -Referencefile $pref -Differencefile $pdif -WorkSheetName $sheetname | Export-Excel -Path $zielpfad -WorksheetName $sheetname -Append -AutoSize
+    Compare-WorkSheet -Referencefile $pref -Differencefile $pdif -WorkSheetName $sheetname | Export-Excel -Path $pref -WorksheetName $sheetname -Append -AutoSize
 
 }else {
     
@@ -122,18 +122,9 @@ if (!$ihead1) {
     Write-Host "   Vergleiche mit Header-Auschluss"
     waittimer 
 
-    Compare-WorkSheet -Referencefile $pref -Differencefile $pdif -ExcludeProperty $exheads -WorkSheetName $sheetname | Export-Excel -Path $zielpfad -WorksheetName $sheetname -Append -AutoSize
+    Compare-WorkSheet -Referencefile $pref -Differencefile $pdif -ExcludeProperty $exheads -WorkSheetName $sheetname | Export-Excel -Path $pref -WorksheetName $sheetname -Append -AutoSize
 
 }
-
-
-
-
-
-
-
-
-
 
 scripthead
 Write-Host "    Verarbeitung abgeschlossen! " -ForegroundColor Yellow

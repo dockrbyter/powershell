@@ -4,8 +4,8 @@ HardwareInfo.ps1
 
     Listet Systeminformationen auf
     Hostname, CPU, Board, RAM, GPU, NIC
-
-https://github.com/thelamescriptkiddiemax/powershell
+    
+https://github.com/thelamescriptkiddiemax/soest
 #>
 #--- Datenerfassung -----------------------------------------------------------------------------------------------------------------------------------------
 

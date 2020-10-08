@@ -15,7 +15,7 @@ netsharestarter.ps1
         Original:
         https://support.microsoft.com/de-de/help/4471218/mapped-network-drive-may-fail-to-reconnect-in-windows-10-version-1809
 
-https://github.com/thelamescriptkiddiemax/powershell
+https://github.com/thelamescriptkiddiemax/soest
 #>
 #--- Vorbereitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

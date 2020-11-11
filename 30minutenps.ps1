@@ -164,7 +164,7 @@ Get-Process explorer                                                            
 
 
 
-
+Get-Process "*word*"                                                                        # Stellt fest ob ein Process der *word* heisst lauft
 
 
 

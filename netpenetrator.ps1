@@ -1,7 +1,6 @@
 <#
 netpenetrator.ps1
 .DESCRIPTION
-
     NetPenetrator - Erzeugt Traffic und logt ihn :D
     
     -> Greift auf CLI von speedtest.net zu!
@@ -11,10 +10,7 @@ netpenetrator.ps1
     führt Speedtests durch und laed 3 Downloads von den 4
     moeglichen Links durchs. Die Ergebnisse landen in Log-File
     auf Net-Share.
-
     Script auf moeglichst vielen Hosts im Netzwerk ausfuehren!!!
-
-
 https://github.com/thelamescriptkiddiemax/powershell
 #>
 #--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -25,6 +21,8 @@ $trafficlink1 = " "                                                             
 $trafficlink2 = " "                                                                                                     # Downloadlink Traffic-File 2                       EX  https://domain.tld/download/link/file
 $trafficlink3 = " "                                                                                                     # Downloadlink Traffic-File 3                       EX  https://domain.tld/download/link/file
 $trafficlink4 = " "                                                                                                     # Downloadlink Traffic-File 4                       EX  https://domain.tld/download/link/file
+
+$tracepath = "8.8.8.8"                                                                                                      # Trace-Ziel
 
 $logfilename = "penlog.txt"                                                                                             # Loggilfe Name                                     EX  penlog.txt
 $logfilepfad = "\\100.100.100.150\logs"                                                                                 # Pfad zu Logfile                                   EX  \\100.100.100.150\logs
@@ -167,6 +165,21 @@ function fileloader ($trafficfile, $trafficlink1, $trafficlink2, $trafficlink3, 
 
 }
 
+function tracelog ($tracepath, $penlocalfile2) {
+
+    $stringtracestart = [System.String]::Concat("Trace Start: ", (Get-Date -Format "dd/MM/yyyy HH:mm:ss"))      # String Start produzieren
+    $stringtracestart  | Out-File -FilePath $penlocalfile2 -Append                                              # String Start in Tempfile 2 schreiben
+
+    #Tracert
+    (Test-NetConnection $tracepath -TraceRoute).TraceRoute | Select-Object -Index 0 | Out-File -FilePath  $penlocalfile2 -append
+
+    
+    $stringtracestopp = [System.String]::Concat("Trace Stopp: ", (Get-Date -Format "dd/MM/yyyy HH:mm:ss"))      # String Start produzieren
+    $stringtracestopp  | Out-File -FilePath $penlocalfile2 -Append                                              # String Start in Tempfile 2 schreiben
+
+
+}
+
 #--- Verarbeitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 scripthead                                                                              # Scriptheadder darstellen
@@ -223,6 +236,14 @@ waittimer $scriptspeed                                                          
 
 netspeedtest $penlocalfile $penlocalfile2 $penexe                                       # Speedtest Funktion aufrufen
 
+
+scripthead                                                                              # Scriptheadder darstellen
+Write-Host "   Phase #1/4 `n   Tracert...."                                           # Ausgabe
+waittimer $scriptspeed 
+
+tracelog ($tracepath, $penlocalfile2)
+
+
 scripthead                                                                              # Scriptheadder darstellen
 Write-Host "   Phase #2/4 `n   Traffic erzeugen.... `n   Dowload #1/3"                  # Ausgabe
 waittimer $scriptspeed                                                                  # Scriptheadder darstellen
@@ -246,6 +267,12 @@ Write-Host "   Phase #3/4 `n   Erneuter Speedtest...."                          
 waittimer $scriptspeed                                                                  # Scriptheadder darstellen
 
 netspeedtest $penlocalfile $penlocalfile2 $penexe                                       # Speedtest Funktion aufrufen
+
+scripthead                                                                              # Scriptheadder darstellen
+Write-Host "   Phase #1/4 `n   Tracert...."                                             # Ausgabe
+waittimer $scriptspeed 
+
+tracelog ($tracepath, $penlocalfile2)
 
 scripthead                                                                              # Scriptheadder darstellen
 Write-Host "   Phase #4/4 `n   Log schreiben, Trash entfernen..."                       # Ausgabe

@@ -20,7 +20,7 @@
     PS> .\usip.ps1
 
 .LINK
-    https://github.com/thelamescriptkiddiemax/powershell
+    https://github.com/thelamescriptkiddiemax/powershell/blob/master/usip.ps1
 #>
 #--- SETTINGS -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

@@ -24,7 +24,7 @@
     PS> .\usipje.ps1
 
 .LINK
-    https://github.com/thelamescriptkiddiemax/powershell
+    https://github.com/thelamescriptkiddiemax/powershell/blob/master/usipje.ps1
 #>
 #--- SETTINGS -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -32,8 +32,8 @@ $tartpw = ""                                            # Init-Passwort fuer die
 $tandardus = ""                                         # User fuer Exportvorlage, leer lassen fuer interaktive Abfrage                                                         E.G.  TestDude
 $tartgroup = ""                                         # Gruppe der die User zugewiesen werden sollen, leer lassen fuer interaktive Abfrage, bzw. keine Gruppenzuweisung       E.G.  WorkerDudes
 
-$scriptspeed = 2                                        # Darstellungsdauer der Textausgaben in Sekunden                                                                        E.G.  2
-$fmode = ""                                             # Floating Mode (fuer Debugging)                                                                                        E.G.  x
+$scriptspeed = 5                                        # Darstellungsdauer der Textausgaben in Sekunden                                                                        E.G.  2
+$fmode = "x"                                             # Floating Mode (fuer Debugging)                                                                                        E.G.  x
 
 #--- VARIABLES ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -260,6 +260,3 @@ Start-Sleep -Seconds 10
 scripthead
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-# Shell schliessen
-#Stop-Process -Id $PID

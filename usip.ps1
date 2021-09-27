@@ -5,7 +5,11 @@
 .DESCRIPTION
     Edit SETTINGS-Block!
 
-    $tartpw - Init-Passwort
+    $tartpw - Init-Passwort -> Wenn $tartpw = CSV, wird dass Passwort aus der CSV ausgelesen.
+    Der entsprechende Header MUSS MANUELL ANGEFUEGT WERDEN!
+
+    (Somit ist es unmoeglich das Start-Passwort "CSV" zu vergeben)
+
     $tandardus - User Exportvorlage
     $tartgroup - Gruppe fuer Import-User
     $scriptspeed - Darstellungsdauer - Nur bei Bedarf editieren
@@ -164,7 +168,13 @@ foreach ($importuser in $importusers) {
     $surname = $importuser.Surname
     $givenName = $importuser.GivenName
     $ouPath = $importuser.OU
-    $accountPassword = (ConvertTo-SecureString $tartpw -AsPlainText -Force)
+
+    # Wenn $tartpw = CSV, dann lese Passwort aus CSV aus, andersfalls lese Passwort aus Variable
+    if ($tartpw -eq "CSV") {
+        $accountPassword = (ConvertTo-SecureString $importuser.Passwort -AsPlainText -Force)
+    }else {
+        $accountPassword = (ConvertTo-SecureString $tartpw -AsPlainText -Force)
+    }
 
     # Neuen AD-User in Itteration erstellen
     New-ADUser -Name $userName -DisplayName $displayName -Surname $surname -GivenName $givenName -Path $ouPath -AccountPassword $accountPassword -Enabled $true -ChangePasswordAtLogon $true

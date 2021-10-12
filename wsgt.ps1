@@ -76,10 +76,17 @@ function stringmp {
     Write-Host "`n `n      MANUELLE UEBERPRUEFUNG `n" -ForegroundColor Yellow
 }
 
+# Interativeres Gefuehl
+function talky ($ayin) {
+    Add-Type -AssemblyName System.speech
+    $speak = New-Object System.Speech.Synthesis.SpeechSynthesizer
+    $speak.Speak($ayin)
+}
+
 #--- EXECUTION ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 scripthead
-Write-Host "`n `n      Fuehre automatisierte Checks durch... `n"
+Write-Host "`n `n      Fuehre automatisierte Checks durch... `n" -ForegroundColor Yellow
 scriptspeed $scriptspeed
 
 # WMI-Firewall Rule und Service Neustart
@@ -117,8 +124,14 @@ scripthead
 Write-Host "`n `n      Automatisierte Checks erledigt! `n"
 scriptspeed $scriptspeed
 
+$ayin = "Kevin, bleib bei der Sache!"
+talky $ayin
+Start-Sleep -Seconds 2
+
+$ayin = "Check Office!"
 # Office Check
 scripthead
+talky $ayin
 stringmp
 Write-Host "MS Office"
 Write-Host "     Bitte ueberpruefen Sie nun, ob MS Office aktiviert ist."
@@ -131,8 +144,10 @@ if ($confirmation1 -eq '1') {
     $5office = "NICHT aktiviert"
 }
 
+$ayin = $zusatzsona
 # Zusatzsoftware Check
 scripthead
+talky $ayin
 stringmp
 Write-Host $zusatzsona
 Write-Host $tringinst
@@ -201,12 +216,17 @@ $newrow = New-Object PSObject -Property @{
 
 $newrow | Select-Object $prop1, $prop2, $prop3, $prop4, $prop5, $prop6, $prop7, $prop8 | Export-Csv $csvtestpa -Append -NoTypeInformation -Delimiter ";"
 
+$ayin = "Ok zieh mich raus"
+
 scripthead
 Write-Host $tringabschlu
 scriptspeed $scriptspeed
 
+Start-Sleep -Seconds 1
+talky $ayin
+
 # GPupdate mit Reboot (Restart-Computer angefuegt falls gpupdate kein Reboot startet)
-Invoke-GPUpdate -Sync -Force -Boot
+Invoke-GPUpdate -Force
 Restart-Computer -Force -ErrorAction SilentlyContinue
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

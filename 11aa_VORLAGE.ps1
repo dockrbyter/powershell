@@ -10,7 +10,7 @@
 .EXAMPLE
     PS> .\VORLAGE.ps1
 .LINK
-    https://github.com/thelamescriptkiddiemax/powershell/blob/master/VORLAGE.ps1
+    https://github.com/thelamescriptkiddiemax/powershell/blob/master/11aa_VORLAGE.ps1.ps1
 #>
 #--- Variables ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

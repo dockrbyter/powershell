@@ -1,65 +1,53 @@
 <#
-VORLAGE.ps1
+.SYNOPSIS
+    Vorlage fuer andere Scripte
 .DESCRIPTION
+    Edit SETTINGS-Block!
 
-    Script-Vorlage
-    
-https://github.com/thelamescriptkiddiemax/powershell
+    $scriptspeed - Darstellungsdauer - Nur bei Bedarf editieren
+    $fmode - Floating Mode - Nur bei Bedarf editieren
+
+.EXAMPLE
+    PS> .\VORLAGE.ps1
+.LINK
+    https://github.com/thelamescriptkiddiemax/powershell/blob/master/VORLAGE.ps1
 #>
-#--- Variablen ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#--- Variables ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+[double]$scriptspeed = 2                            # Timespan to show text in seconds                      e.g.    2
+$fmode = ""                                         # Floating Mode (for debugging)                         e.g.    x
 
-
-$scriptspeed = "2"                                                                  # Darstellungsdauer der Textausgaben in Sekunden                                            EX  2
-$fmode = "x"                                                                        # Floating Mode (fuer Debugging)                                                            EX  x
-
-#--- Vorbereitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
+#--- Functions ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 $scriptname = $MyInvocation.MyCommand.Name
-
-#--- Funktionen ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 # Scripthead
 function scripthead
 {
-
-    # create stringhost
-    $stringhost = [System.String]::Concat("[ ", $env:UserName, " @ ", $env:computername, " @ ", ((Get-WmiObject Win32_ComputerSystem).Domain), " ", (Get-CimInstance Win32_OperatingSystem | Select-Object Caption), ": ", 
+    # Stringhostinfos
+    $tringhost = [System.String]::Concat("[ ", $env:UserName, " @ ", $env:computername, " @ ", (Get-WmiObject Win32_ComputerSystem).Domain, " -", (Get-CimInstance Win32_OperatingSystem).Caption, ": ", 
     ((Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\" -Name ReleaseID).ReleaseId), " ]   ", (Get-Date -Format "dd/MM/yyyy HH:mm"), "`n", "[ ", $scriptname, " ]", "`n","`n") 
-    $stringhost = $stringhost.replace("{Caption=Microsoft"," ").replace("}", " ")
+    $tringhost = $tringhost.replace("Microsoft "," ").replace("}", " ")
 
     # fmode
     if (!$fmode)
     {
-        Clear-Host                                                                                                                                  # Clear Screen
+        Clear-Host
     }
 
-    Write-Host $stringhost -ForegroundColor Magenta
-
-    Write-Host "   Titel" -ForegroundColor Blue
-
+    Write-Host $tringhost -ForegroundColor Magenta
+    Write-Host "   Titel" -ForegroundColor DarkCyan
     Write-Host "`n"
-
 }
 
-# Dauer Einblendungen
+# Display timespan
 function scriptspeed ($scriptspeed)
 {
-    Start-Sleep -Seconds $scriptspeed                                                                                                               # display timeout
+    Start-Sleep -Seconds $scriptspeed
 }
 
-#--- Verarbeitung -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#--- Processing ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 scripthead
-waittimer $scriptspeed
+scriptspeed $scriptspeed
 
-
-
-
-
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-#stop-process -Id $PID       # Shell schliessen

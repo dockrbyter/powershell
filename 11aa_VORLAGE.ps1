@@ -8,7 +8,7 @@
     $fmode - Floating Mode - Nur bei Bedarf editieren
 
 .EXAMPLE
-    PS> .\VORLAGE.ps1
+    PS> .\11aa_VORLAGE.ps1
 .LINK
     https://raw.githubusercontent.com/thelamescriptkiddiemax/powershell/master/11aa_VORLAGE.ps1
 #>

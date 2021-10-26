@@ -16,7 +16,7 @@
 .EXAMPLE
     PS> .\csvmerger.ps1
 .LINK
-    https://github.com/thelamescriptkiddiemax/powershell/blob/master/VORLAGE.ps1
+    https://raw.githubusercontent.com/thelamescriptkiddiemax/powershell/master/csvmerger.ps1
 #>
 #--- SETTINGS -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

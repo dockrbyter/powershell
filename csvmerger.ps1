@@ -16,7 +16,7 @@
 .EXAMPLE
     PS> .\csvmerger.ps1
 .LINK
-    https://raw.githubusercontent.com/thelamescriptkiddiemax/powershell/master/csvmerger.ps1
+    https://github.com/thelamescriptkiddiemax/powershell/blob/master/VORLAGE.ps1
 #>
 #--- SETTINGS -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -75,6 +75,10 @@ if (!$exportcsv) {
     if (!$exportcsv) {
         $exportcsv = "merged"
     }
+
+    scripthead
+    Write-Host $exportcsv -ForegroundColor DarkGreen
+    scriptspeed $scriptspeed
 }
 
 if (!$importdir) {
@@ -84,6 +88,9 @@ if (!$importdir) {
     if (!$importdir) {
         $importdir = $PWD.Path
     }
+    scripthead
+    Write-Host $importdir -ForegroundColor DarkGreen
+    scriptspeed $scriptspeed
 }
 
 if (!$exportpath) {
@@ -93,6 +100,9 @@ if (!$exportpath) {
     if (!$exportpath) {
         $exportpath = $PWD.Path
     }
+    scripthead
+    Write-Host $exportpath -ForegroundColor DarkGreen
+    scriptspeed $scriptspeed
 }
 
 if (!$impdeli) {
@@ -102,6 +112,9 @@ if (!$impdeli) {
     if (!$impdeli) {
         $impdeli = ";"
     }
+    scripthead
+    Write-Host $impdeli -ForegroundColor DarkGreen
+    scriptspeed $scriptspeed
 }
 
 if (!$expdeli) {
@@ -111,10 +124,14 @@ if (!$expdeli) {
     if (!$expdeli) {
         $expdeli = ";"
     }
+    scripthead
+    Write-Host $expdeli -ForegroundColor DarkGreen
+    scriptspeed $scriptspeed
 }
 
 $exportcsvpath = [System.String]::Concat($exportpath, "\", $exportcsv, ".csv")
 $importdir = [System.String]::Concat($importdir, "\*csv")
+$tringexp = [System.String]::Concat("    Die Datei `n --- ", $exportcsvpath, " --- `n    wurde erstellt!")
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -130,5 +147,5 @@ Get-ChildItem $importdir | Foreach-Object {
 
 scripthead
 Write-Host "   ...Merge erledigt!"
-Write-Host ""
+Write-Host $tringexp -ForegroundColor Green
 scriptspeed $scriptspeed

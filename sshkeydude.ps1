@@ -81,7 +81,7 @@ if (!$nuob) {
     }
 }
 
-$tringkname = [System.String]::Concat("SSH-Key_",(Get-WmiObject Win32_ComputerSystem).Domain, "_", $env:UserName)
+$tringkname = "id_rsa"
 
 # Wenn $kname NULL...
 if (!$kname) {
